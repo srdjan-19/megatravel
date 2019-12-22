@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://www.megatravel.com/users" xmlns:us="http://www.megatravel.com/users"
+    xmlns:re="http://www.megatravel.com/reservation"
+    xmlns:ac="http://www.megatravel.com/accommodation" xmlns:me="http://www.megatravel.com/message">
+
+    <xs:import namespace="http://www.megatravel.com/reservation" schemaLocation="Reservation.xsd"/>
+    <xs:import namespace="http://www.megatravel.com/accommodation" schemaLocation="Accommodation.xsd"/>
+    <xs:import namespace="http://www.megatravel.com/message" schemaLocation="Message.xsd"/>
+
+
+    <xs:complexType abstract="true" name="User">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"> </xs:element>
+            <xs:element name="username" type="xs:string"/>
+            <xs:element name="password" type="xs:string"/>
+            <xs:element name="email" type="xs:string"/>
+            <xs:element name="firstName" type="xs:string"/>
+            <xs:element name="lastName" type="xs:string"/>
+            <xs:element name="roles" type="us:Role" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Administrator">
+        <xs:complexContent>
+            <xs:extension base="us:User">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="Agent">
+        <xs:complexContent>
+            <xs:extension base="us:User">
+                <xs:sequence>
+                    <xs:element name="brn">
+	                    <xs:simpleType>
+		                    <xs:restriction base="xs:int">
+							   <xs:pattern value="[0-9]{13}"/>
+		                    </xs:restriction>
+	                	</xs:simpleType>
+	                </xs:element>
+                    <xs:element name="address" type="ac:Address"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="EndUser">
+        <xs:complexContent>
+            <xs:extension base="us:User">
+                <xs:sequence>
+                    <xs:element name="status" type="us:userStatus"/>
+                    <xs:element name="reservations" type="re:Reservation" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="userStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Active"/>
+            <xs:enumeration value="Blocked"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Role">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="us:roles"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="users" type="us:User"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="privileges" type="us:Privileges"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Privileges">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:long"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="roles" type="us:Role"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="roles">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Admin"/>
+            <xs:enumeration value="Agent"/>
+            <xs:enumeration value="EndUser"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:element name="createAgentRequest">
+        <xs:complexType>
+            <xs:sequence>
+	            <xs:element name="username" type="xs:string"/>
+	            <xs:element name="password" type="xs:string"/>
+	            <xs:element name="email" type="xs:string"/>
+	            <xs:element name="firstName" type="xs:string"/>
+	            <xs:element name="lastName" type="xs:string"/>
+	            <xs:element name="city" type="xs:string"/>
+	            <xs:element name="brn">
+	            	<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:pattern value="[0-9]{13}"/>
+						</xs:restriction>
+	               	</xs:simpleType>
+	            </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="createEndUserRequest">
+        <xs:complexType>
+            <xs:sequence>
+	            <xs:element name="username" type="xs:string"/>
+	            <xs:element name="password" type="xs:string"/>
+	            <xs:element name="email" type="xs:string"/>
+	            <xs:element name="firstName" type="xs:string"/>
+	            <xs:element name="lastName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="UserResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="feedback" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

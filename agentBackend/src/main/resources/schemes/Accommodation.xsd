@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://www.megatravel.com/accommodation"
+    xmlns:ac="http://www.megatravel.com/accommodation" xmlns:us="http://www.megatravel.com/users"
+    xmlns:re="http://www.megatravel.com/reservation"
+    xmlns:cb="http://www.megatravel.com/codebook">
+
+    <xs:import namespace="http://www.megatravel.com/users" schemaLocation="Users.xsd"/>
+    <xs:import namespace="http://www.megatravel.com/reservation" schemaLocation="Reservation.xsd"/>
+    <xs:import namespace="http://www.megatravel.com/codebook" schemaLocation="Codebook.xsd"/>
+    
+    <xs:complexType name="Accommodation">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"> </xs:element>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="type" type="cb:AccommodationType"/>
+            <xs:element name="category" type="cb:AccommodationCategory"/>
+			<xs:element name="ownedBy" type="us:Agent"/>  
+            <xs:element name="distance">
+                <xs:simpleType>
+                    <xs:restriction base="xs:double">
+                        <xs:minExclusive value="0"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="images" type="ac:ImageResource" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="address" type="ac:Address"/>
+            <xs:element name="capacity">
+            	<xs:simpleType>
+                    <xs:restriction base="xs:int">
+                        <xs:minExclusive value="0"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="priceInSeason" type="ac:PriceInSeason" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="additionalServices" type="cb:AdditionalService" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="cancellation" type="ac:Cancellation"/>
+            <xs:element name="rates" type="ac:Rate" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="comments" type="ac:Comment" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+     <xs:complexType name="ImageResource">
+        <xs:sequence>
+        	<xs:element name="id" type="xs:long"/>
+            <xs:element name="path" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Address">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"> </xs:element>
+            <xs:element name="country" type="xs:string"/>
+            <xs:element name="city" type="xs:string"/>
+            <xs:element name="zip">
+                <xs:simpleType>
+                    <xs:restriction base="xs:int">
+                        <xs:minExclusive value="10000"/>
+                        <xs:maxExclusive value="95000"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="street">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50"/>
+                        <xs:minLength value="5"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="longitude">
+                <xs:simpleType>
+                    <xs:restriction base="xs:double">
+                        <xs:minInclusive value="0"/>
+                        <xs:maxInclusive value="180"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="latitude">
+                <xs:simpleType>
+                    <xs:restriction base="xs:double">
+                        <xs:minInclusive value="0"/>
+                        <xs:maxInclusive value="180"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="Cancellation">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="available" type="xs:boolean"/>
+            <xs:element name="period">
+            	<xs:simpleType>
+                    <xs:restriction base="xs:int">
+                        <xs:minExclusive value="0"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="PriceInSeason">
+        <xs:sequence>
+        	<xs:element name="id" type="xs:long"/>
+            <xs:element name="month" type="ac:months"/>
+            <xs:element name="price">
+            	<xs:simpleType>
+                    <xs:restriction base="xs:double">
+                        <xs:minExclusive value="0"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="currency" type="ac:currencies"/>
+        </xs:sequence>
+    </xs:complexType>
+       
+    <xs:complexType name="Comment">
+        <xs:sequence>
+         	<xs:element name="id" type="xs:long"/>
+            <xs:element name="content" type="xs:string"/>
+            <xs:element name="visible" type="xs:boolean" default="false"/>
+            <xs:element name="postedBy" type="us:EndUser"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+	<xs:complexType name="Rate">
+        <xs:sequence>
+         	<xs:element name="id" type="xs:long"/>
+            <xs:element name="rate" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+	
+    <xs:simpleType name="months">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="January"/>
+            <xs:enumeration value="February"/>
+            <xs:enumeration value="March"/>
+            <xs:enumeration value="April"/>
+            <xs:enumeration value="May"/>
+            <xs:enumeration value="June"/>
+            <xs:enumeration value="July"/>
+            <xs:enumeration value="August"/>
+            <xs:enumeration value="September"/>
+            <xs:enumeration value="October"/>
+            <xs:enumeration value="November"/>
+            <xs:enumeration value="December"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="currencies">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="EUR"/>
+            <xs:enumeration value="GBP"/>
+            <xs:enumeration value="USD"/>
+            <xs:enumeration value="RSD"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="createCommentRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="accommodationName" type="xs:string"/>
+                <xs:element name="content" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="updateCommentRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="status" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="deleteCommentRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="cprdCommentResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="feedback" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="createAccommodationRequest">
+        <xs:complexType>
+            <xs:sequence>
+	            <xs:element name="name" type="xs:string"/>
+	            <xs:element name="owner" type="xs:string"/>
+	            <xs:element name="type" type="xs:string"/>
+	            <xs:element name="category" type="xs:string"/>
+	            <xs:element name="distance">
+	                <xs:simpleType>
+	                    <xs:restriction base="xs:double">
+	                        <xs:minExclusive value="0"/>
+	                    </xs:restriction>
+	                </xs:simpleType>
+            	</xs:element>
+	            <xs:element name="description" type="xs:string"/>
+	            <xs:element name="city" type="xs:string"/>
+	            <xs:element name="capacity">
+	            	<xs:simpleType>
+		            	<xs:restriction base="xs:int">
+		                	<xs:minInclusive value="0"/>
+						</xs:restriction>
+					</xs:simpleType>
+	            </xs:element>
+	            <xs:element name="cancellation">
+			        <xs:complexType>
+			            <xs:sequence>
+			                <xs:element name="available" type="xs:boolean"/>
+							<xs:element name="period" type="xs:int"></xs:element>
+			            </xs:sequence>
+			        </xs:complexType>
+			    </xs:element>  
+	            <xs:element name="pricelist" minOccurs="0" maxOccurs="12">
+			        <xs:complexType>
+			            <xs:sequence>
+			                <xs:element name="month" type="ac:months"/>
+							<xs:element name="price" type="xs:double"/>
+							<xs:element name="currency" type="ac:currencies"/>	            
+			            </xs:sequence>
+			        </xs:complexType>
+			    </xs:element>           
+	            <xs:element name="additionalServices" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="images" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+	        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="updateAccommodationRequest">
+        <xs:complexType>
+            <xs:sequence>
+	            <xs:element name="id" type="xs:long"/>
+	            <xs:element name="newName" type="xs:string"/>
+	            <xs:element name="type" type="xs:string"/>
+	            <xs:element name="category" type="xs:string"/>
+	            <xs:element name="distance">
+	                <xs:simpleType>
+	                    <xs:restriction base="xs:double">
+	                        <xs:minExclusive value="0"/>
+	                    </xs:restriction>
+	                </xs:simpleType>
+	            </xs:element>
+	            <xs:element name="description" type="xs:string"/>
+	            <xs:element name="city" type="xs:string"/>
+	            <xs:element name="capacity">
+	            	<xs:simpleType>
+		            	<xs:restriction base="xs:int">
+		                	<xs:minInclusive value="0"/>
+						</xs:restriction>
+					</xs:simpleType>
+	            </xs:element>
+	            <xs:element name="cancellation">
+			        <xs:complexType>
+			            <xs:sequence>
+			                <xs:element name="available" type="xs:boolean"/>
+							<xs:element name="period" type="xs:int"></xs:element>
+			            </xs:sequence>
+			        </xs:complexType>
+			    </xs:element>        
+	            <xs:element name="pricelist" minOccurs="0" maxOccurs="12">
+			        <xs:complexType>
+			            <xs:sequence>
+			                <xs:element name="month" type="ac:months"/>
+							<xs:element name="price" type="xs:double"/>
+							<xs:element name="currency" type="ac:currencies"/>	            
+			            </xs:sequence>
+			        </xs:complexType>
+			    </xs:element>   
+	            <xs:element name="additionalServices" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="images" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+	        </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="deleteAccommodationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="cudAccommodationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="feedback" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

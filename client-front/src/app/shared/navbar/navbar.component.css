@@ -1,0 +1,13 @@
+#back {
+    background-image:url("../../rsrc/orient.jpg");
+}
+
+.icon {
+    font-size: 32px;
+    color: white;
+}
+
+.icon:hover {    
+    font-size: 36px;
+    color: wheat;
+}

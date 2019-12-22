@@ -1,0 +1,37 @@
+<div id="back">
+	<nav class="navbar navbar-dark ">
+		<div class="container-fluid">
+			<nav class="navbar-header flex-column">
+				<a class="navbar-brand" [routerLink]="['/']">
+					<img [src]='logo'>
+				</a>
+			</nav>
+			<ul class="nav nav-pills mb-4">
+				<li class="nav-item icon mt-2" *ngIf="!isLoggedIn">
+					<a class=" fa fa-user-plus mr-4" data-toggle="modal" data-target="#signup"></a>
+				</li>
+				<li class="nav-item icon mt-2" *ngIf="!isLoggedIn">
+					<a class="font-weight-bold fa fa-sign-in mr-4" data-toggle="modal" data-target="#signin"></a>
+				</li>
+				<li class="nav-item mt-3" *ngIf="isEndUser">
+					<a class="icon font-weight-bold fa fa-user mr-4" [routerLink]="['account']"></a>
+				</li>
+				<li class="nav-item mt-3" *ngIf="isEndUser">
+					<a class="icon font-weight-bold fa fa-envelope mr-4" [routerLink]="['inbox']"></a>
+				</li>
+				<li class="nav-item icon mt-2" *ngIf="isLoggedIn">
+					<a class="font-weight-bold fa fa-sign-out mr-4" (click)="signout()"></a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="modal modal-lg mx-auto w-50 my-4" id="signup" tabindex="-1" role="dialog" aria-labelledby="signup"
+		aria-hidden="true">
+		<app-sign-up></app-sign-up>
+	</div>
+
+	<div class="modal modal-lg mx-auto w-50 my-4" id="signin" tabindex="-2" role="dialog" aria-labelledby="signin"
+		aria-hidden="true">
+		<app-sign-in></app-sign-in>
+	</div>

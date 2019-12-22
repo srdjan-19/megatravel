@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.megatravel.com/codebook" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.megatravel.com/codebook" targetNamespace="http://www.megatravel.com/codebook">
+    <wsdl:types>
+        <xs:schema xmlns:cb="http://www.megatravel.com/codebook" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.megatravel.com/codebook">
+            <xs:complexType name="AccommodationCategory">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:long"/>
+                    <xs:element name="name" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="AccommodationType">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:long"/>
+                    <xs:element name="name" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="AdditionalService">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:long"/>
+                    <xs:element name="name" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="createAccommodationCategoryRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="name" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="createAccommodationTypeRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="name" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="createAdditionalServiceRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="name" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="updateAccommodationCategoryRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="oldName" type="xs:string"/>
+                        <xs:element name="newName" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="updateAccommodationTypeRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="oldName" type="xs:string"/>
+                        <xs:element name="newName" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="updateAdditionalServiceRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="oldName" type="xs:string"/>
+                        <xs:element name="newName" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="deleteAccommodationCategoryRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="name" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="deleteAccommodationTypeRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="name" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="deleteAdditionalServiceRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="name" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="codebookResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="feedback" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="createAdditionalServiceRequest">
+        <wsdl:part element="tns:createAdditionalServiceRequest" name="createAdditionalServiceRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="deleteAccommodationTypeRequest">
+        <wsdl:part element="tns:deleteAccommodationTypeRequest" name="deleteAccommodationTypeRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="updateAdditionalServiceRequest">
+        <wsdl:part element="tns:updateAdditionalServiceRequest" name="updateAdditionalServiceRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="codebookResponse">
+        <wsdl:part element="tns:codebookResponse" name="codebookResponse">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="createAccommodationTypeRequest">
+        <wsdl:part element="tns:createAccommodationTypeRequest" name="createAccommodationTypeRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="deleteAccommodationCategoryRequest">
+        <wsdl:part element="tns:deleteAccommodationCategoryRequest" name="deleteAccommodationCategoryRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="createAccommodationCategoryRequest">
+        <wsdl:part element="tns:createAccommodationCategoryRequest" name="createAccommodationCategoryRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="deleteAdditionalServiceRequest">
+        <wsdl:part element="tns:deleteAdditionalServiceRequest" name="deleteAdditionalServiceRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="updateAccommodationCategoryRequest">
+        <wsdl:part element="tns:updateAccommodationCategoryRequest" name="updateAccommodationCategoryRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="updateAccommodationTypeRequest">
+        <wsdl:part element="tns:updateAccommodationTypeRequest" name="updateAccommodationTypeRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="CodebookPort">
+        <wsdl:operation name="createAdditionalService">
+            <wsdl:input message="tns:createAdditionalServiceRequest" name="createAdditionalServiceRequest">
+    </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="deleteAccommodationType">
+            <wsdl:input message="tns:deleteAccommodationTypeRequest" name="deleteAccommodationTypeRequest">
+    </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="updateAdditionalService">
+            <wsdl:input message="tns:updateAdditionalServiceRequest" name="updateAdditionalServiceRequest">
+    </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="codebook">
+            <wsdl:output message="tns:codebookResponse" name="codebookResponse">
+    </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="createAccommodationType">
+            <wsdl:input message="tns:createAccommodationTypeRequest" name="createAccommodationTypeRequest">
+    </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="deleteAccommodationCategory">
+            <wsdl:input message="tns:deleteAccommodationCategoryRequest" name="deleteAccommodationCategoryRequest">
+    </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="createAccommodationCategory">
+            <wsdl:input message="tns:createAccommodationCategoryRequest" name="createAccommodationCategoryRequest">
+    </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="deleteAdditionalService">
+            <wsdl:input message="tns:deleteAdditionalServiceRequest" name="deleteAdditionalServiceRequest">
+    </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="updateAccommodationCategory">
+            <wsdl:input message="tns:updateAccommodationCategoryRequest" name="updateAccommodationCategoryRequest">
+    </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="updateAccommodationType">
+            <wsdl:input message="tns:updateAccommodationTypeRequest" name="updateAccommodationTypeRequest">
+    </wsdl:input>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CodebookPortSoap11" type="tns:CodebookPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="createAdditionalService">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="createAdditionalServiceRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="deleteAccommodationType">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="deleteAccommodationTypeRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="updateAdditionalService">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="updateAdditionalServiceRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="codebook">
+            <soap:operation soapAction=""/>
+            <wsdl:output name="codebookResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="createAccommodationType">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="createAccommodationTypeRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="deleteAccommodationCategory">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="deleteAccommodationCategoryRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="createAccommodationCategory">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="createAccommodationCategoryRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="deleteAdditionalService">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="deleteAdditionalServiceRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="updateAccommodationCategory">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="updateAccommodationCategoryRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="updateAccommodationType">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="updateAccommodationTypeRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="CodebookPortService">
+        <wsdl:port binding="tns:CodebookPortSoap11" name="CodebookPortSoap11">
+            <soap:address location="http://DESKTOP-9GSQ1MN:8000/booking"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

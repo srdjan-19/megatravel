@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://www.megatravel.com/reservation" 
+    xmlns:re="http://www.megatravel.com/reservation"
+    xmlns:us="http://www.megatravel.com/users"
+    xmlns:ac="http://www.megatravel.com/accommodation">
+
+    <xs:import id="us" namespace="http://www.megatravel.com/users" schemaLocation="Users.xsd"/>
+    <xs:import namespace="http://www.megatravel.com/accommodation" schemaLocation="Accommodation.xsd"/>
+   
+    <xs:complexType name="Reservation">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="accommodation" type="ac:Accommodation"/>
+            <xs:element name="fromDate" type="xs:date"/>
+            <xs:element name="tillDate" type="xs:date"/>
+            <xs:element name="status" type="re:reservationStatus"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:simpleType name="reservationStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="On hold"/>
+            <xs:enumeration value="Approved"/>
+            <xs:enumeration value="Canceled"/>
+            <xs:enumeration value="Rejected"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="createReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="fromDate" type="xs:date"/>
+                <xs:element name="tillDate" type="xs:date"/>
+                <xs:element name="accommodationName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="updateReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+				<xs:element name="status" type="re:reservationStatus"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+   
+    <xs:element name="cudReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="feedback" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

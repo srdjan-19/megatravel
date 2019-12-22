@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.megatravel.com/reservation" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.megatravel.com/reservation" targetNamespace="http://www.megatravel.com/reservation">
+    <wsdl:types>
+        <xs:schema xmlns:ac="http://www.megatravel.com/accommodation" xmlns:re="http://www.megatravel.com/reservation" xmlns:us="http://www.megatravel.com/users" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.megatravel.com/reservation">
+            <xs:import id="us" namespace="http://www.megatravel.com/users" schemaLocation="Users.xsd"/>
+            <xs:import namespace="http://www.megatravel.com/accommodation" schemaLocation="Accommodation.xsd"/>
+            <xs:complexType name="Reservation">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:long"/>
+                    <xs:element name="accomodation" type="ac:Accommodation"/>
+                    <xs:element name="fromDate" type="xs:date"/>
+                    <xs:element name="tillDate" type="xs:date"/>
+                    <xs:element name="status" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="createReservationRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="fromDate" type="xs:date"/>
+                        <xs:element name="tilLDate" type="xs:date"/>
+                        <xs:element name="accommodatioName" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="createReservationResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="response" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="createReservationResponse">
+        <wsdl:part element="tns:createReservationResponse" name="createReservationResponse">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="createReservationRequest">
+        <wsdl:part element="tns:createReservationRequest" name="createReservationRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="ReservationsPort">
+        <wsdl:operation name="createReservation">
+            <wsdl:input message="tns:createReservationRequest" name="createReservationRequest">
+    </wsdl:input>
+            <wsdl:output message="tns:createReservationResponse" name="createReservationResponse">
+    </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="ReservationsPortSoap11" type="tns:ReservationsPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="createReservation">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="createReservationRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="createReservationResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="ReservationsPortService">
+        <wsdl:port binding="tns:ReservationsPortSoap11" name="ReservationsPortSoap11">
+            <soap:address location="http://localhost:8081/booking"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

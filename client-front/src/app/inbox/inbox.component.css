@@ -1,0 +1,17 @@
+.recipient {
+    font-family: 'Marcellus', serif;
+}
+
+.card {   
+    height: fit-content;
+}
+
+.messageContent {
+    font-family: 'Marcellus', serif;
+    font-size: 14px;
+    height: fit-content;
+}
+
+.modal-content {
+    border: 1px solid whitesmoke;
+}

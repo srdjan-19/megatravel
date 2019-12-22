@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://www.megatravel.com/codebook"
+    xmlns:cb="http://www.megatravel.com/codebook">
+
+    <xs:complexType name="AccommodationCategory">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="AccommodationType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="AdditionalService">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="createAccommodationCategoryRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="createAccommodationTypeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="createAdditionalServiceRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="updateAccommodationCategoryRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="oldName" type="xs:string"/>
+				<xs:element name="newName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="updateAccommodationTypeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="oldName" type="xs:string"/>
+                <xs:element name="newName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="updateAdditionalServiceRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="oldName" type="xs:string"/>
+                <xs:element name="newName" type="xs:string"/>            
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="deleteAccommodationCategoryRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="deleteAccommodationTypeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="deleteAdditionalServiceRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="codebookResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="feedback" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    
+</xs:schema>

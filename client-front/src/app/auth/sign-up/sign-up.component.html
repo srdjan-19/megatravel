@@ -1,0 +1,54 @@
+<div class="container mx-auto">
+	<div class="mt-4" role="document text-center">
+		<div class="modal-md modal-content">
+			<div id="header" class="modal-header">
+				<div class="container">
+					<div class="row">
+						<div class="ml-4 col-lg text-center">
+							<p class="h4 text-white font-weight-bold">REGISTRATION</p>
+						</div>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div id="content" class="container text-center p-3 rounded">
+				<form method="post">
+					<div [formGroup]="signupInfo" class="form-group mx-auto mt-2 w-50">
+						<i class="icon fa fa-user-circle"></i>
+						<input formControlName="username" type="text" class="form-control my-3" placeholder="Username"
+							required>
+						<input formControlName="password" type="password" class="form-control mb-3"
+							placeholder="Password" required>
+						<input formControlName="firstName" type="text" class="form-control my-3"
+							placeholder="First Name" required>
+						<input formControlName="lastName" type="text" class="form-control mb-3" placeholder="Last Name"
+							required>
+						<input formControlName="email" type="email" class="form-control mb-3" placeholder="Email"
+							required>
+						<button (click)="signUp()" class="btn btn-outline-primary btn-block font-weight-bold">SIGN
+							UP</button>
+					</div>
+				</form>
+				<!-- <div id="errorSignup" class="modal fade" role="dialog" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Error</h5>
+								</div>
+								<div class="modal-body"  id="errorMessageSingup">
+									{{errorMessageSingup}}
+								</div> 
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</div>
+</div>

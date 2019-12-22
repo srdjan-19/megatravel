@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.megatravel.com/accommodation" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.megatravel.com/accommodation" targetNamespace="http://www.megatravel.com/accommodation">
+    <wsdl:types>
+        <xs:schema xmlns:ac="http://www.megatravel.com/accommodation" xmlns:cb="http://www.megatravel.com/codebook" xmlns:re="http://www.megatravel.com/reservation" xmlns:us="http://www.megatravel.com/users" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.megatravel.com/accommodation">
+            <xs:import namespace="http://www.megatravel.com/users" schemaLocation="Users.xsd"/>
+            <xs:import namespace="http://www.megatravel.com/reservation" schemaLocation="Reservation.xsd"/>
+            <xs:import namespace="http://www.megatravel.com/codebook" schemaLocation="Codebook.xsd"/>
+            <xs:complexType name="Accommodation">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:long"> </xs:element>
+                    <xs:element name="name" type="xs:string"/>
+                    <xs:element name="type" type="cb:AccommodationType"/>
+                    <xs:element name="category" type="cb:AccommodationCategory"/>
+                    <xs:element name="ownedBy" type="us:Agent"/>
+                    <xs:element name="fromDate" type="xs:date"/>
+                    <xs:element name="tillDate" type="xs:date"/>
+                    <xs:element name="distance" type="xs:int"/>
+                    <xs:element name="description" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="image" type="ac:ImageResource"/>
+                    <xs:element name="address" type="ac:Address"/>
+                    <xs:element name="capacity" type="xs:unsignedInt"/>
+                    <xs:element name="priceInSeason" type="ac:PriceInSeason"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="additionalService" type="cb:AdditionalServices"/>
+                    <xs:element name="available" type="xs:boolean"/>
+                    <xs:element name="cancelation" type="ac:Cancelation"/>
+                    <xs:element name="rate" type="ac:rate"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="comments" type="ac:Comment"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ImageResource">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:long"/>
+                    <xs:element name="path" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Address">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:long"> </xs:element>
+                    <xs:element name="country" type="xs:string"/>
+                    <xs:element name="city" type="xs:string"/>
+                    <xs:element name="zip">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:int">
+                                <xs:minExclusive value="10000"/>
+                                <xs:maxExclusive value="45000"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="street">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="30"/>
+                                <xs:minLength value="5"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="longitude">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:double">
+                                <xs:minInclusive value="0"/>
+                                <xs:maxInclusive value="180"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="latitude">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:double">
+                                <xs:minInclusive value="0"/>
+                                <xs:maxInclusive value="180"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Cancelation">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:long"/>
+                    <xs:element name="available" type="xs:boolean"/>
+                    <xs:element name="daysLeft" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PriceInSeason">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:long"/>
+                    <xs:element name="inMonth" type="ac:months"/>
+                    <xs:element name="price" type="xs:unsignedInt"/>
+                    <xs:element name="currency" type="ac:currencies"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Comment">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:long"/>
+                    <xs:element name="content" type="xs:string"/>
+                    <xs:element default="false" name="visible" type="xs:boolean"/>
+                    <xs:element name="postedBy" type="us:EndUser"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="rate">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Uncategorized"/>
+                    <xs:enumeration value="1*"/>
+                    <xs:enumeration value="2*"/>
+                    <xs:enumeration value="3*"/>
+                    <xs:enumeration value="4*"/>
+                    <xs:enumeration value="5*"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="months">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="January"/>
+                    <xs:enumeration value="February"/>
+                    <xs:enumeration value="March"/>
+                    <xs:enumeration value="April"/>
+                    <xs:enumeration value="May"/>
+                    <xs:enumeration value="June"/>
+                    <xs:enumeration value="July"/>
+                    <xs:enumeration value="August"/>
+                    <xs:enumeration value="September"/>
+                    <xs:enumeration value="October"/>
+                    <xs:enumeration value="November"/>
+                    <xs:enumeration value="December"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="currencies">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="EUR"/>
+                    <xs:enumeration value="GBP"/>
+                    <xs:enumeration value="USD"/>
+                    <xs:enumeration value="RSD"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:element name="createCommentRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="content" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="createCommentResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="response" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="createAccommodationRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="accommodation" type="ac:Accommodation"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="createAccommodationResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="response" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAccommodationCategoryRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="name" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAccommodationCategoryResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="accommodationsOfCategory" type="ac:Accommodation"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAccommodationTypeRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="name" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAccommodationTypeResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="accommodationsOfType" type="ac:Accommodation"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="createAccommodationResponse">
+        <wsdl:part element="tns:createAccommodationResponse" name="createAccommodationResponse">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="createCommentResponse">
+        <wsdl:part element="tns:createCommentResponse" name="createCommentResponse">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getAccommodationTypeResponse">
+        <wsdl:part element="tns:getAccommodationTypeResponse" name="getAccommodationTypeResponse">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getAccommodationCategoryRequest">
+        <wsdl:part element="tns:getAccommodationCategoryRequest" name="getAccommodationCategoryRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="createCommentRequest">
+        <wsdl:part element="tns:createCommentRequest" name="createCommentRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getAccommodationTypeRequest">
+        <wsdl:part element="tns:getAccommodationTypeRequest" name="getAccommodationTypeRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="createAccommodationRequest">
+        <wsdl:part element="tns:createAccommodationRequest" name="createAccommodationRequest">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getAccommodationCategoryResponse">
+        <wsdl:part element="tns:getAccommodationCategoryResponse" name="getAccommodationCategoryResponse">
+    </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="AccomodaitonsPort">
+        <wsdl:operation name="createAccommodation">
+            <wsdl:input message="tns:createAccommodationRequest" name="createAccommodationRequest">
+    </wsdl:input>
+            <wsdl:output message="tns:createAccommodationResponse" name="createAccommodationResponse">
+    </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="createComment">
+            <wsdl:input message="tns:createCommentRequest" name="createCommentRequest">
+    </wsdl:input>
+            <wsdl:output message="tns:createCommentResponse" name="createCommentResponse">
+    </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getAccommodationType">
+            <wsdl:input message="tns:getAccommodationTypeRequest" name="getAccommodationTypeRequest">
+    </wsdl:input>
+            <wsdl:output message="tns:getAccommodationTypeResponse" name="getAccommodationTypeResponse">
+    </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getAccommodationCategory">
+            <wsdl:input message="tns:getAccommodationCategoryRequest" name="getAccommodationCategoryRequest">
+    </wsdl:input>
+            <wsdl:output message="tns:getAccommodationCategoryResponse" name="getAccommodationCategoryResponse">
+    </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="AccomodaitonsPortSoap11" type="tns:AccomodaitonsPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="createAccommodation">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="createAccommodationRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="createAccommodationResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="createComment">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="createCommentRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="createCommentResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getAccommodationType">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="getAccommodationTypeRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getAccommodationTypeResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getAccommodationCategory">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="getAccommodationCategoryRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getAccommodationCategoryResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="AccomodaitonsPortService">
+        <wsdl:port binding="tns:AccomodaitonsPortSoap11" name="AccomodaitonsPortSoap11">
+            <soap:address location="http://localhost:8081/booking"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
