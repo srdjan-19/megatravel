@@ -27,7 +27,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0",
-    "rxjs": "^6.0.0",
+    "rxjs": "^6.5.4",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
