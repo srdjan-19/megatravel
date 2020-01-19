@@ -1,0 +1,45 @@
+<app-no-data *ngIf="agents.length == 0"></app-no-data>
+<div class=" text-center mb-4 mt-4">
+  <button type="button" class="btn btn-create btn-outline-cyan" data-toggle="modal" data-target="#create-agent">
+    <i class="fa fa-plus mr-2"></i>
+    new agent
+  </button>
+  <div class="modal modal-md mx-auto my-4" id="create-agent" tabindex="-1" role="dialog" aria-labelledby="create-agent"
+    aria-hidden="true">
+    <app-create-agent (created)="applyCreation($event)"></app-create-agent>
+  </div>
+</div>
+<section class="intro" *ngIf="agents.length > 0">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 mr-4">
+        <div class="table-responsive">
+          <table class="table table-fixed table-hover">
+            <thead class="table-header-text">
+              <tr>
+                <th scope="col-xs-1">id</th>
+                <th scope="col-xs-1">e-mail</th>
+                <th scope="col-1">First name</th>
+                <th scope="col-xs-1">Last name</th>
+                <th scope="col-xs-1">Username</th>
+                <th scope="col-1">BRN</th>
+                <th scope="col-md-1">Address</th>
+              </tr>
+            </thead>
+            <tbody class="table-body-text">
+              <tr *ngFor='let agent of agents'>
+                <td>A</td>
+                <td>{{ agent.email }}</td>
+                <td>{{ agent.firstName }}</td>
+                <td>{{ agent.lastName }}</td>
+                <td>{{ agent.username }}</td>
+                <td>{{ agent.brn }}</td>
+                <td>{{ agent.address.city }}, {{ agent.address.country }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

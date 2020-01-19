@@ -1,12 +1,11 @@
 
 
 #content {
-    background-image:url("../../rsrc/background.jpg");
+    background-image:url("../../../assets/background.jpg");
 }
 
 #header {
-    /* background-image:url("../../rsrc/seamlessnav.jpg"); */
-    background-color: #062a3b;
+    background-color: darkcyan;
 }
 
 .modal-header .close {
@@ -15,17 +14,28 @@
 
 .icon {
     font-size: 96px;
-    color: #062a3b  ;
+    color: darkcyan  ;
 }
 
-.btn-outline-primary {
-    color: #062a3b;
-    background-color: transparent;
-    border-color: #062a3b;
+.btn-outline-cyan {
+    color: darkcyan;
+    background-color: white;
+    border-color: darkcyan;
+    letter-spacing: 5px;
+    font-size: 18px;
 }
 
-.btn-outline-primary:hover {
-    background-color: #062a3b;
+.btn-outline-cyan:hover {
+    background-color: darkcyan;
     color: white;
-    border-color: #062a3b;
+    border-color: darkcyan;
+    letter-spacing: 5px;
+    font-size: 18px;
+}
+
+.form-control {
+    font-variant: small-caps;
+    font-weight: 500;
+    font-size: 21px;
+    letter-spacing: 1px;
 }

@@ -1,0 +1,18 @@
+.welcome {
+    font-size: 96px;
+    color: darkgoldenrod;
+    display: inline-block;
+    padding: 0;
+    font-family: 'Kanit', cursive;
+    text-transform: uppercase;
+}
+
+.icon {
+    margin-top: 10vh;
+    font-size: 256px;
+    color: darkgoldenrod;
+}
+
+.text-gold {
+    color: darkgoldenrod;
+}

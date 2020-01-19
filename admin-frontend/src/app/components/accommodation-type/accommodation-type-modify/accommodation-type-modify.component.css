@@ -1,0 +1,9 @@
+.title {
+    color: rgb(224, 181, 63);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.form-control {
+    font-variant: small-caps;
+}

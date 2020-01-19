@@ -1,0 +1,34 @@
+<nav class="navbar">
+  <div class="container-fluid">
+    <nav class="navbar-header flex-column">
+      <a class="navbar-brand" [routerLink]="['/']">
+        <img [src]='logo'>
+      </a>
+    </nav>
+    <ul class="nav nav-pills mx-auto">
+      <li class="nav-item nav-icon mt-2 mx-2">
+        <button *ngIf="isAgent" class="btn font-weight-bold nav-icon fas fa-briefcase" routerLink="/accommodations">
+          <p class="nav-text">Accommodations</p>
+        </button>
+      </li>
+      <li class="nav-item mt-2 mx-2 ">
+        <button *ngIf="isAgent" class="btn nav-icon font-weight-bold fas fa-book" routerLink="/reservations">
+          <p class="nav-text">Reservations</p>
+        </button>
+      </li>
+    </ul>
+    <ul class="nav nav-pills">
+      <li class="nav-item mt-2" *ngIf="isAgent">
+        <button class="btn nav-icon font-weight-bold mr-2 fa fa-envelope" routerLink="/inbox">
+          <p class="nav-text">Inbox</p>
+        </button>
+      </li>
+      <li class="nav-item mt-2">
+        <button *ngIf="!isLoggedIn" class="btn nav-icon my-2 far fa-caret-square-up	" type="submit"
+          routerLink="/login"></button>
+        <button *ngIf="isLoggedIn" class="btn nav-icon my-2 far fa-caret-square-down	" type="submit" routerLink="/login"
+          (click)="signOut()"></button>
+      </li>
+    </ul>
+  </div>
+</nav>

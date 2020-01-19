@@ -1,0 +1,28 @@
+.list-group-item, .list-group-item:hover { 
+    z-index: auto; 
+}
+
+.list-group-item {
+    background-color: whitesmoke;
+}
+
+.btn {
+    letter-spacing: 5px;
+}
+
+.accommodation-text {
+    letter-spacing: 2.5px;
+    font-size: 15px;
+    text-align: justify;
+}
+
+.btn-ud {
+    font-size: 13px;
+}
+
+.btn-create {
+    letter-spacing: 7px;
+    font-size: large;
+}
+
+

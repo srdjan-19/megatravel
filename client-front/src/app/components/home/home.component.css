@@ -1,0 +1,12 @@
+.icon {
+    font-size: 320px;
+    margin-top: 7vh;
+    color: darkcyan;
+    border: 5px solid darkcyan;
+    padding: 36;
+}
+
+.text-cyan {
+    color: darkcyan;
+    letter-spacing: 3px;
+}

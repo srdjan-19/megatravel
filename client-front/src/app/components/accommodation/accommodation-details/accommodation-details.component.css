@@ -1,0 +1,92 @@
+.modal-title {
+    color: darkgoldenrod;
+}
+
+.description {
+    height: fit-content;
+    text-justify: newspaper;
+}
+
+.icon {
+    font-size: 24px;
+    color: goldenrod;
+}
+
+.icon-stack {
+    font-size: 20px;
+    font-weight: 900;
+    font-family: 'Kanit', cursive;
+    margin-top: -13px;
+}
+.content {
+    color: goldenrod;
+    font-variant: small-caps;
+    font-size: 20px;
+}
+
+.content-circle {
+    border: 2px solid goldenrod;
+    padding-right: 12px;
+    padding-left: 12px;
+}
+
+.comment-content {
+    font-family: 'Kanit', cursive;
+    font-size: 16px;
+    background-color: whitesmoke;
+    color: darkgreen;
+}
+
+.comment-card {
+    border: 1px solid darkgreen;
+    border-radius: 0;
+}
+
+.comment-posted-by {
+    font-family: 'Bebas Neue', cursive;
+    color: darkgoldenrod;
+    direction: rtl;
+    font-variant: small-caps;
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+
+.attribute {
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: darkgoldenrod;
+}
+
+.no-comments {
+    font-size: 18;
+    color: darkgoldenrod;
+    text-align: center;
+}
+
+.btn {
+    border-radius: 0;
+}
+
+.btn-outline-green {
+    color: darkgreen;
+    background: white;
+    border: 1px solid darkgreen;
+    letter-spacing: 1.5px;
+}
+
+.btn-outline-green:hover {
+    background: darkgreen;
+    color: white;
+    border: 1px solid darkgreen;    
+    letter-spacing: 1.5px;
+}
+
+.card {
+    border: 1px solid darkgoldenrod;
+    border-radius: 0;
+}
+
+hr {
+    margin-bottom: 4;
+}

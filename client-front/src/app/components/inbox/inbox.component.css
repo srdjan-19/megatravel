@@ -1,0 +1,105 @@
+.list-group-item {
+    letter-spacing: 2.5px;
+    background: darkcyan; 
+    border: 1px solid darkslategray;
+    color: whitesmoke;
+    border-radius: 0;  
+    margin-bottom: 5px;
+    font-family: 'Kanit', cursive;
+    font-variant: small-caps;
+    font-size: 18px;
+}
+
+.list-group-item:hover {
+    letter-spacing: 2.5px;
+    background: whitesmoke;
+    color: darkcyan; 
+    border: 1px solid darkcyan;
+    border-bottom: 8px solid darkcyan;
+    border-radius: 0; 
+     
+}
+
+.text-gold {
+    color:darkgoldenrod;
+}
+
+.modal-content {
+    background: rgba(218, 216, 216, 0.856);
+    border-radius: 0;
+}
+
+.card-darkgold {
+    border-radius: 0;
+    background: darkgoldenrod;
+    letter-spacing: 1px;
+}
+
+.card-darkslategray {
+    border-radius: 0;
+    background: darkslategray;
+    letter-spacing: 1px;
+}
+
+.firstClientMessage {
+    border-top-left-radius: 20px;
+}
+
+.lastClientMessage {
+    border-bottom-right-radius: 20px;
+}
+
+
+.card-body {
+    font-family: 'Montserrat', sans-serif;
+    padding: 5px;
+}
+
+.content {
+    font-family: 'Kanit', cursive;
+    font-size: 12px;
+}
+
+textarea {
+    font-family: 'Kanit', cursive;
+}
+
+.modal-body {
+    letter-spacing: 3px;
+    font-size: 12px;
+    margin-bottom: -22px;
+}
+
+.modal-header {
+    color: darkcyan;    
+}
+
+.modal-footer {
+    background: rgba(218, 216, 216, 0.856);
+}
+
+.btn {
+    border-radius: 0;
+}
+
+.btn-outline-primary {
+    color: darkgoldenrod;
+    background: white;
+    border: 1px solid darkgoldenrod;
+}
+
+.btn-outline-primary:hover {
+    background: darkgoldenrod;
+    color: white;
+    border: 1px solid darkgoldenrod;
+}
+
+
+.active {
+    border: 1px solid darkgoldenrod;
+    border-bottom: 8px solid darkgoldenrod;
+    border-radius: 0;
+    background: whitesmoke;
+    color: darkgoldenrod;
+    margin-bottom: 12px;
+}

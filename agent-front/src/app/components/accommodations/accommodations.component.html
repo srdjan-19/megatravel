@@ -1,0 +1,46 @@
+<div class="mx-auto text-center">
+  <button id="btn-create-accommodation" class="btn btn-outline-cyan btn-create my-4" data-toggle="modal"
+    data-target="#create-accommodation">
+    create new accommodation
+  </button>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="list-group">
+          <div class="list-group-item" (update)="createdAccommodation($event)"
+            *ngFor="let accommodation of accommodations;let i = index;">
+            <div class="row">
+              <div class="col-6 pt-2">
+                <p class="accommodation-text">
+                  {{accommodation.name}} // {{accommodation.type.name}} // {{accommodation.category.name}}
+                </p>
+              </div>
+              <div class="col-3 pt-2">
+                <button class="btn btn-outline-warning btn-ud" [attr.data-target]="'#update-accommodation' + i"
+                  data-toggle="modal">
+                  <i class="fa fa-edit"></i>
+                  Edit
+                </button>
+              </div>
+              <div class="col-3 pt-2">
+                <button class="btn btn-outline-danger btn-ud" (click)="delete(accommodation)">
+                  <i class="far fa-trash-alt"></i>
+                  Delete
+                </button>
+              </div>
+            </div>
+            <div id="update-accommodation{{i}}" class="modal modal-md" role="dialog" tabindex="-1">
+              <app-update-accommodation [accommodation]=accommodation (updated)='applyUpdate($event)'>
+              </app-update-accommodation>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="create-accommodation" class="modal" role="dialog">
+  <app-create-accommodation (created)='applyCreate($event)'>
+  </app-create-accommodation>
+</div>

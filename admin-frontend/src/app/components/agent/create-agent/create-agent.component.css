@@ -1,0 +1,21 @@
+.modal-title {
+    color: darkgoldenrod;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.modal-content {
+    background-color: whitesmoke;
+}
+
+.attribute {
+    font-size: 14px;
+    font-weight: bold;
+    color: darkgoldenrod;
+    text-transform: uppercase;
+}
+
+hr {
+    margin-top: 4px;
+    margin-bottom: 12px;
+}

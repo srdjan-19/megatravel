@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3 col-md-12 col-lg-3 mt-4">
+      <div class="list-group" *ngFor="let agent of agents; let i = index">
+        <button class="list-group-item list-group-item-action" [ngClass]="{'active': activeIndex === i}"
+          (click)="showHistory(i)">{{agent.firstName}}
+          {{agent.lastName}}
+        </button>
+      </div>
+    </div>
+    <div class="col-sm-9 col-md-12 col-lg-9 mt-4" *ngIf="chat !== undefined">
+      <div role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="mx-auto">
+              <div class="text-center mb-1">Messages</div>
+              <span class="text-gold">{{agentName}}</span>
+              <hr />
+            </h4>
+          </div>
+          <div class="container modal-body" *ngFor="let message of chat; let i = index;">
+            <div class="row">
+              <div name="client-messages" class="col-12" *ngIf="message.sentBy == 'END_USER'">
+                <div class="card card-darkslategray col-6 ml-auto"
+                  [ngClass]="{'lastClientMessage': lastClientMessageIndex == i, 'firstClientMessage': firstClientMessageIndex == i}">
+                  <div class="card-body text-white text-center content">
+                    {{message.content}}
+                  </div>
+                </div>
+              </div>
+              <div id="AM" name="agent-messages" class="col-12" *ngIf="message.sentBy == 'AGENT'">
+                <div class="card card-darkgold col-6 mr-auto">
+                  <div class="card-body text-white text-center content">
+                    {{message.content}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="input-group">
+              <textarea class="form-control" rows="1" style="resize:none" [(ngModel)]="request.content"></textarea>
+              <span class="input-group-addon btn btn-outline-primary" (click)=send()>SEND</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

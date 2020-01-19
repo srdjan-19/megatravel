@@ -1,0 +1,35 @@
+.inputGroupContainer {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.title {
+    color: darkgoldenrod;
+    margin: auto;
+    text-transform: uppercase;
+    font-size: 28px;
+    letter-spacing: 4px;
+}
+
+.attribute {
+    text-transform: uppercase;
+    color: goldenrod;
+    font-size: 18px;
+    letter-spacing: 6px;
+}
+
+.modal-body {
+    background:lightgrey;
+}
+
+.modal-header {
+    background: lightgrey;
+}
+
+.form-control {
+    font-family: 'Kanit', cursive;
+}
+
+hr {
+    border: 0.5px solid white;
+}

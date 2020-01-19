@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand navbar-dark bg-darkcyan">
+    <ul class="nav navbar-nav">
+        <li>
+            <a id="logo" class="nav-link">
+                <i class="fa fa-user-secret"></i>
+                Admin
+            </a>
+        </li>
+        <li *ngIf="isAdmin" class='nav-item dropdown mt-2'>
+            <a class="nav-link dropdown-toggle" href="" id="dropdownManage" type="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Manage
+            </a>
+            <div *ngIf="isAdmin" class="dropdown-menu" aria-labelledby="dropdownManage">
+                <a class="dropdown-item btn" [routerLink]="['additional-services']"
+                    routerLinkActive="router-link-active">
+                    Additional services
+                </a>
+                <a class="dropdown-item btn" [routerLink]="['accommodation-types']"
+                    routerLinkActive="router-link-active">
+                    Accommodation types
+                </a>
+                <a class="dropdown-item btn" [routerLink]="['accommodation-categories']"
+                    routerLinkActive="router-link-active">
+                    Accommodation categories
+                </a>
+            </div>
+        </li>
+        <li *ngIf="isAdmin" class='nav-item dropdown mt-2'>
+            <a class="nav-link dropdown-toggle" href="" id="dropdownUsers" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Users
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownUsers">
+                <a class="dropdown-item btn" [routerLink]="['end-users']" routerLinkActive="router-link-active">
+                    EndUsers
+                </a>
+                <a class="dropdown-item btn" [routerLink]="['agents']" routerLinkActive="router-link-active">
+                    Agents
+                </a>
+            </div>
+        </li>
+        <li *ngIf="isAdmin" class='nav-item mt-2'>
+            <a class="nav-link" [routerLink]="['comments']" routerLinkActive="router-link-active">
+                Comments
+            </a>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        <li *ngIf="!isLoggedIn" class="btn nav-item "><a class="nav-link" [routerLink]="['sign-in']"
+                routerLinkActive="router-link-active">
+                Sign in
+            </a>
+        </li>
+        <li *ngIf="isLoggedIn" class="btn nav-item"><a class="nav-link" (click)="signOut()">
+                Sign out
+            </a>
+        </li>
+    </ul>
+</nav>

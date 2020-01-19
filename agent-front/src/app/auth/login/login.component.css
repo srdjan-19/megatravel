@@ -1,0 +1,38 @@
+
+
+#content {
+    background-color: whitesmoke;
+}
+
+#header {
+    background-color: darkcyan;
+}
+
+.modal-header .close {
+    color: white;
+}
+
+.icon {
+    font-size: 96px;
+    color: darkcyan  ;
+}
+
+.btn-outline-cyan {
+    color: darkcyan;
+    background-color: white;
+    border-color: darkcyan;
+    letter-spacing: 5px;
+}
+
+.btn-outline-cyan:hover {
+    background-color: darkcyan;
+    color: white;
+    border-color: darkcyan;
+    letter-spacing: 5px;
+}
+
+.form-control {
+    font-family: 'Kanit', sans-serif;
+    font-variant: small-caps;
+
+}

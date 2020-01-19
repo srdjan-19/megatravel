@@ -1,0 +1,33 @@
+.main {
+    background-image:url("assets/background.jpg");
+    background-repeat: repeat;
+}
+
+body {
+    font-family: 'Bebas Neue', cursive;
+    font-weight: 500;
+}
+
+.btn {
+    border-radius: 0;
+}
+
+.btn-outline-cyan {
+    color: darkcyan;
+    background: white;
+    border: 1px solid darkcyan;
+}
+
+.btn-outline-cyan:hover {
+    background: darkcyan;
+    color: white;
+    border: 1px solid darkcyan;
+}
+
+.modal {
+    border-radius: 0;
+}
+
+.list-group {
+    border-radius: 0;
+}

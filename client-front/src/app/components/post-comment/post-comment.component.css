@@ -1,0 +1,23 @@
+.text-gold {
+    color: darkgoldenrod;
+}
+
+textarea {
+    font-family: 'Kanit', cursive;
+}
+
+.btn {
+    border-radius: 0;
+}
+
+.btn-outline-gold {
+    color: darkgoldenrod;
+    background: white;
+    border: 1px solid darkgoldenrod;
+}
+
+.btn-outline-gold:hover {
+    background: darkgoldenrod;
+    color: white;
+    border: 1px solid darkgoldenrod;
+}

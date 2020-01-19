@@ -1,0 +1,87 @@
+spring:
+  application:
+    name: zuul-gateway
+
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    protocol: TLS
+    key-store-type: JKS
+    key-store: classpath:store/zuul.jks
+    key-store-password: megatravel
+    key-alias: zuul
+    key-password: megatravel 
+    client-auth: need
+    trust-store: classpath:store/zuul.jks
+    trust-store-password: megatravel
+    trust-store-type: JKS
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: https://localhost:8440/eureka
+  instance:
+    hostname: localhost
+    
+zuul:
+  host:
+    connect-timeout-millis: 5000000
+    socket-timeout-millis: 5000000
+  ignored-services: '*'
+  routes:
+    main-backend:
+      path: /main-backend/**
+      stripPrefix: true
+      sensitive-headers:
+      - Cookie, Set-Cookie
+      serviceId: main-backend
+    client-registration-service:
+      path: /client-registration-service/**
+      stripPrefix: true
+      serviceId: client-registration-service
+    login-service:
+      path: /login-service/**
+      stripPrefix: true
+      serviceId: login-service
+    agent-backend:
+      path: /agent-backend/**
+      stripPrefix: true
+      sensitive-headers:
+      - Cookie, Set-Cookie
+      serviceId: agent-backend
+    agent-creation-service:
+      path: /agent-creation-service/**
+      stripPrefix: true
+      sensitive-headers:
+      - Cookie, Set-Cookie
+      serviceId: agent-creation-service
+#  ssl-hostname-validation-enabled: true
+    
+ribbon:
+  secure-ports:
+  - 8444
+  - 8445
+  - 8446
+  - 8448
+  - 8449
+  - 8450 
+  eureka:
+    enabled: true
+  ReadTimeout: 60000
+  
+
+logging:
+  file: zuul.log
+  level:
+    root: INFO
+  pattern:
+    console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
+    file: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
+
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -26,8 +26,15 @@ export class Accommodation {
     comments: Comment[];
 }
 
-export class SearchAccommodationRequest { 
+export class SearchAccommodationRequest {
     name: string;
     type: string;
     category: string;
+
+    constructor(name: string, type: string, category: string) {
+        this.name = name;
+        this.type = type;
+        this.category = category;
+    }
 }
+

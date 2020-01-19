@@ -1,0 +1,57 @@
+<app-no-data *ngIf="services.length == 0"></app-no-data>
+
+<div class="col-5 mx-auto" *ngIf="services.length > 0">
+  <table class="table table-fixed table-hover table-light">
+    <thead class="table-header-text">
+      <tr>
+        <th scope="col-xs-1">id</th>
+        <th scope="col-1">name</th>
+        <th scope="col-xs-1" colspan="2">actions</th>
+      </tr>
+    </thead>
+    <tbody class="table-body-text">
+      <tr *ngFor='let service of services; let i = index'>
+        <td>AS</td>
+        <td>{{ service.name }}</td>
+        <td *ngIf="isAdmin">
+          <button class="btn btn-outline-warning" data-toggle="modal"
+            [attr.data-target]="' #accommodation-additional-service' + i">
+            <i class="fa fa-edit"></i> Modify
+          </button>
+        </td>
+        <td *ngIf="isAdmin"><button type="button" (click)="delete(service.id)" class="btn btn-outline-danger">
+            <i class="fa fa-close"></i> Delete
+          </button>
+        </td>
+        <div class="modal modal-md mx-auto my-4" id="accommodation-additional-service{{i}}" tabindex="-1" role="dialog"
+          aria-labelledby="accommodation-additional-service" aria-hidden="true">
+          <app-additional-services-modify [additionalService]=service (updated)="applyUpdate($event)">
+          </app-additional-services-modify>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="row" *ngIf=" isAdmin">
+  <div class="col-5 mx-auto mt-4">
+    <div class="card text-right">
+      <div class="card-body">
+        <form #asForm="ngForm">
+          <div class="form-row">
+            <div class="col-8 my-1 text-right">
+              <input type="text" class="form-control" id="name" required name="name" [(ngModel)]="service.name"
+                placeholder="Enter service name...">
+            </div>
+            <div class="col my-1 text-right">
+              <button type="submit" class="btn btn-outline-cyan btn-block" (click)="create()">
+                <i class="fa fa-plus mr-2"></i>
+                add service
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

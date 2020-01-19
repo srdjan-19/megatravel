@@ -1,0 +1,30 @@
+<div class="container w-50">
+	<div class="mt-4" role="document doucment text-center">
+		<div class="modal-md modal-content">
+			<div id="header" class="modal-header">
+				<div class="container">
+					<div class="row">
+						<div class="ml-4 col-lg text-center">
+							<p class="h4 text-white font-weight-bold">SIGN IN</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="content" class="container text-center p-3">
+				<form method="post" data-ng-submit="signin()">
+					<div class="text-center">
+						<i class="icon fa fa-user-secret"></i>
+					</div>
+					<div [formGroup]="signRequest" class="form-group mx-auto w-50">
+						<input formControlName="username" type="text" class="form-control my-3" placeholder="username">
+						<input formControlName="password" type="password" class="form-control mb-3"
+							placeholder="password">
+						<button (click)="signIn()" class="btn btn-outline-cyan btn-block">
+							SIGN IN
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

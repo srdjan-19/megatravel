@@ -1,0 +1,57 @@
+.title {
+    font-family: 'Marcellus', cursive;
+}
+
+.list-group-item {
+    letter-spacing: 2.5px;
+    background: darkcyan; 
+    border: 1px solid darkslategray;
+    border-radius: 0;  
+    margin-bottom: 5px;
+}
+
+.list-group-item:hover {
+    letter-spacing: 2.5px;
+    background: goldenrod; 
+    border: 1px solid darkgoldenrod;
+    border-radius: 0;  
+}
+
+.card {
+    border-radius: 0;
+}
+
+.card-darkgray {
+    background: darkgray;
+    letter-spacing: 1px;
+}
+
+.card-darkslategray {
+    background: darkslategray;
+    letter-spacing: 1px;
+}
+
+.card-body {
+    font-family: 'Montserrat', sans-serif;
+    padding: 5px;
+}
+
+.modal-body {
+    background: rgba(218, 216, 216, 0.856);
+    letter-spacing: 3px;
+    font-size: 12px;
+}
+
+.modal-header {
+    background: rgba(218, 216, 216, 0.856);
+    color: darkcyan;    
+}
+
+.modal-footer {
+    background: rgba(218, 216, 216, 0.856);
+}
+
+.title-center {
+    text-align: center;
+    border-bottom: 2px dotted darkgray;
+}

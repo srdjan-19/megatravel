@@ -1,0 +1,60 @@
+.title {
+    color: darkcyan;
+    margin: auto;
+    text-transform: uppercase;
+    font-size: 28px;
+    letter-spacing: 7px;
+}
+
+.attribute {
+    text-transform: uppercase;
+    color: darkcyan;
+    font-size: 18px;
+    letter-spacing: 3px;
+}
+
+.sub-attribute {
+    color: rgb(0, 172, 172);
+}
+
+.map-info {
+    font-size: 14px;
+    font-family: 'Kanit', cursive;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.btn-pricelist {
+    background: darkcyan;
+    color: white;
+}
+
+.btn-pricelist:hover {
+    color: darkcyan;
+    background-color: white;
+}
+
+.modal-body {
+    background:whitesmoke;
+}
+
+.modal-header {
+    background: lightgrey;
+}
+
+.form-control {
+    font-family: 'Kanit', cursive;
+}
+
+.form-control[readonly] {
+    background-color: white;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+hr {
+    margin-top: 2rem;
+    margin-bottom: 0;
+}

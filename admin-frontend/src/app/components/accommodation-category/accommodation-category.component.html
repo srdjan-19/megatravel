@@ -1,0 +1,57 @@
+<div class="col-5 mx-auto" *ngIf="categories.length > 0">
+  <table class="table table-fixed table-hover table-light">
+    <thead>
+      <tr class="table-header-text">
+        <th scope="col-xs-1">id</th>
+        <th scope="col-1">name</th>
+        <th scope="col-xs-1" colspan="2">actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-body-text" *ngFor='let category of categories; let i = index'>
+        <td>AC</td>
+        <td>{{ category.name }}</td>
+        <td *ngIf="isAdmin">
+          <button class="btn btn-outline-warning" data-toggle="modal"
+            [attr.data-target]="'#accommodation-category' + i">
+            <i class="fa fa-edit"></i>
+            Modify
+          </button>
+        </td>
+        <td *ngIf="isAdmin">
+          <button type="button" (click)="delete(category.id)" class="btn btn-outline-danger">
+            <i class="fa fa-close"></i> Delete
+          </button>
+        </td>
+        <div class="modal modal-md mx-auto my-4" id="accommodation-category{{i}}" tabindex="-1" role="dialog"
+          aria-labelledby="accommodation-category" aria-hidden="true">
+          <app-accommodation-category-modify [category]=category (updated)="applyUpdate($event)">
+          </app-accommodation-category-modify>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div id="create-category" class="row text-center mt-4" *ngIf="isAdmin">
+  <div class="col-5 mx-auto">
+    <div class="card text-right">
+      <div class="card-body">
+        <form #asForm="ngForm">
+          <div class="form-row">
+            <div class="col-8 my-1 text-right">
+              <input type="text" class="form-control" id="name" required name="name" [(ngModel)]="category.name"
+                placeholder="Enter category name...">
+            </div>
+            <div class="col my-1 text-right">
+              <button type="submit" class="btn btn-outline-cyan btn-block" (click)="create()">
+                <i class="fa fa-plus mr-2"></i>
+                add category
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-no-data *ngIf="categories.length == 0"></app-no-data>

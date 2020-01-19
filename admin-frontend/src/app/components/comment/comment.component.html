@@ -1,0 +1,58 @@
+<app-no-data *ngIf="acceptedComments.length == 0 && refusedComments.length == 0"></app-no-data>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12" *ngIf="refusedComments.length > 0">
+      <table class="table table-fixed table-hover">
+        <thead class="table-header-text">
+          <tr>
+            <th scope="col-xs-1">id</th>
+            <th scope="col-1">Content</th>
+            <th scope="col-xs-1">Visible</th>
+            <th scope="col-1">Posted by</th>
+            <th scope="col-xs-1" colspan="2"></th>
+          </tr>
+        </thead>
+        <tbody class="table-body-text">
+          <tr *ngFor='let comment of refusedComments'>
+            <td>{{ comment.id }}</td>
+            <td>{{ comment.content }}</td>
+            <td>{{ comment.visible }}</td>
+            <td>{{ comment.postedBy }}</td>
+            <td *ngIf="isAdmin">
+              <button type="button" (click)="approve(comment.id)" class="btn btn-outline-success">
+                <i class="fa fa-check-circle-o"></i>
+                Approve
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12" *ngIf="acceptedComments.length > 0">
+      <table class="table table-fixed table-hover">
+        <thead class="table-header-text">
+          <tr>
+            <th scope="col-xs-1">id</th>
+            <th scope="col-1">Content</th>
+            <th scope="col-xs-1">Visible</th>
+            <th scope="col-1">Posted by</th>
+            <th scope="col-xs-1" colspan="2"></th>
+          </tr>
+        </thead>
+        <tbody class="table-body-text">
+          <tr *ngFor='let comment of acceptedComments'>
+            <td>{{ comment.id }}</td>
+            <td>{{ comment.content }}</td>
+            <td>{{ comment.visible }}</td>
+            <td>{{ comment.postedBy }}</td>
+            <td *ngIf="isAdmin">
+              <button type="button" (click)="refuse(comment.id)" class="btn btn-outline-danger">
+                <i class="fa fa-ban"></i> Deny
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

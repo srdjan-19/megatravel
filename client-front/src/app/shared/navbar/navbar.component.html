@@ -1,4 +1,4 @@
-<div id="back">
+<div id="navbar">
 	<nav class="navbar navbar-dark ">
 		<div class="container-fluid">
 			<nav class="navbar-header flex-column">
@@ -25,13 +25,12 @@
 			</ul>
 		</div>
 	</nav>
-
 	<div class="modal modal-lg mx-auto w-50 my-4" id="signup" tabindex="-1" role="dialog" aria-labelledby="signup"
 		aria-hidden="true">
 		<app-sign-up></app-sign-up>
 	</div>
-
 	<div class="modal modal-lg mx-auto w-50 my-4" id="signin" tabindex="-2" role="dialog" aria-labelledby="signin"
 		aria-hidden="true">
-		<app-sign-in></app-sign-in>
+		<app-sign-in (signed)="signed()"></app-sign-in>
 	</div>
+</div>

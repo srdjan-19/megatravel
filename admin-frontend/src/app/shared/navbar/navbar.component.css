@@ -1,0 +1,24 @@
+.bg-darkcyan {
+    background: darkcyan;
+}
+
+.dropdown, .nav-item  {
+    font-family: 'Bebas Neue', cursive;
+}
+
+.dropdown-item  {
+    font-family: 'Bebas Neue', cursive;
+    text-transform: uppercase;
+}
+
+.btn {
+    color: darkgoldenrod;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+#logo {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 24px;
+    color: white;
+}

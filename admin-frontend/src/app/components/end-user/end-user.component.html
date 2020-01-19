@@ -1,0 +1,42 @@
+<app-no-data *ngIf="endUsers.length == 0"></app-no-data>
+<section class="intro" *ngIf="endUsers.length > 0">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 mr-4">
+        <div class="table-responsive">
+
+          <table class="table table-fixed">
+            <thead class="table-header-text">
+              <tr>
+                <th scope="col-xs-1">id</th>
+                <th scope="col-xs-1">e-mail</th>
+                <th scope="col-1">first name</th>
+                <th scope="col-xs-1">last name</th>
+                <th scope="col-xs-1">username</th>
+                <th scope="col-xs-1">status</th>
+                <th scope="col-xs-1" colspan="3">actions</th>
+              </tr>
+            </thead>
+            <tbody class="table-body-text">
+              <tr *ngFor='let user of endUsers; let i = index;'
+                [ngClass]="{'activated': activatedIndex == i, 'blocked': blockedIndex == i}">
+                <td>EU</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.status }}</td>
+                <td *ngIf="isAdmin"><button type="button" (click)="activate(user)" class="btn btn-outline-success"><i
+                      class="fa fa-check-circle-o"></i> Activate</button></td>
+                <td *ngIf="isAdmin"><button type="button" (click)="block(user)" class="btn btn-outline-warning"><i
+                      class="fa fa-ban"></i> Block</button></td>
+                <td *ngIf="isAdmin"><button type="button" (click)="delete(user)" class="btn btn-outline-danger"><i
+                      class="far fa-trash-alt"></i> Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,5 +1,5 @@
-#back {
-    background-image:url("../../rsrc/orient.jpg");
+#navbar {
+    background-image:url("../../../assets/orient.jpg");
 }
 
 .icon {
@@ -8,6 +8,6 @@
 }
 
 .icon:hover {    
-    font-size: 36px;
-    color: wheat;
+    font-size: 32px;
+    color: darkgoldenrod;
 }

@@ -1,54 +1,63 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
-import { AccommodationComponent} from './accommodation/accommodation.component';
-import { AccountComponent } from './account/account.component';
-import { InboxComponent } from './inbox/inbox.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AccommodationComponent } from './components/accommodation/accommodation.component';
+import { AccountComponent } from './components/account/account.component';
+import { InboxComponent } from './components/inbox/inbox.component';
+import { HomeComponent } from './components/home/home.component';
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { AuthGuard } from '../app/auth/guards/auth-guard.service';
 
 const routes: Routes = [
   {
-    path:'',
-    redirectTo: 'accommodation',
-    pathMatch: 'full'
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
   },
   {
-    path:'signup',
-    component: SignUpComponent
+    path: '',
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent
+      },
+      {
+        path: 'signup',
+        component: SignUpComponent
+      },
+      {
+        path: 'signin',
+        component: SignInComponent
+      },
+      {
+        path: 'accommodations',
+        component: AccommodationComponent
+      },
+      {
+        path: 'account',
+        component: AccountComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'inbox',
+        component: InboxComponent,
+        canActivate: [AuthGuard],
+      },
+    ]
   },
   {
-    path:'signin',
-    component: SignInComponent
-  },
-  {
-    path:'accommodation',
-    component: AccommodationComponent
-  },
-  {
-    path:'account',
-    component: AccountComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path:'inbox',
-    component: InboxComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: '**', 
+    path: '**',
     component: PageNotFoundComponent
   },
   {
-    path: 'pnf-404', 
+    path: '404',
     component: PageNotFoundComponent
   }
 
 ];
 
-export const routing = RouterModule.forRoot(routes, {useHash: true});
+export const routing = RouterModule.forRoot(routes, { useHash: true });
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

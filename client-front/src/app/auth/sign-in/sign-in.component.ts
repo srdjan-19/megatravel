@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, NgModel } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
-import { Router, RouterLink } from '@angular/router';
-
+import { Router } from '@angular/router';
 import { SigninRequest } from 'src/app/model/signin.model';
 import { AuthService } from 'src/app/auth/auth.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
+declare var $: any;
 
 @Component({
   selector: 'app-sign-in',
@@ -13,6 +14,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
+  @Output() signed = new EventEmitter();
 
   isLoggedIn = false;
   isLoginFailed = false;
@@ -30,7 +32,8 @@ export class SignInComponent implements OnInit {
 
   constructor(private authService: AuthService,
     private tokenStorage: TokenStorageService,
-    private router: Router) { }
+    private router: Router,
+    private notificationService: ToastrService) { }
 
   ngOnInit() {
     if (this.tokenStorage.getToken()) {
@@ -48,11 +51,8 @@ export class SignInComponent implements OnInit {
     this.login.username = this.user.username.value
     this.login.password = this.user.password.value
 
-    console.log(this.login);
-
     this.authService.signIn(this.login).subscribe(
       data => {
-        console.log(data)
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUsername(data.username);
         this.tokenStorage.saveAuthorities(data.grantedAuthorities);
@@ -60,11 +60,12 @@ export class SignInComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getAuthorities();
-        window.location.reload();
-        this.router.navigate(['/accommodation']);
+        this.router.navigate(['/accommodations']);
+        $('#signin').modal('hide');
+        this.signed.emit();
       },
       error => {
-        alert(error.error.message);
+        this.notificationService.error(error.error.message, "Error", { timeOut: 2000 });
         this.errorMessage = error.error.message;
         this.isLoginFailed = true;
       })

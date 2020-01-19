@@ -3,15 +3,24 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json",
+    "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "node patch-webpack.js"
+  },
+  "browser": {
+    "http": false,
+    "https": true,
+    "net": false,
+    "path": false,
+    "stream": false,
+    "tls": true
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^6.1.0",
+    "@angular/animations": "^6.1.10",
     "@angular/common": "^6.1.0",
     "@angular/compiler": "^6.1.0",
     "@angular/core": "^6.1.0",
@@ -26,6 +35,8 @@
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
+    "ngx-toastr": "^10.1.0",
+    "ngx-ui-loader": "^7.2.2",
     "popper.js": "^1.15.0",
     "rxjs": "^6.0.0",
     "zone.js": "~0.8.26"

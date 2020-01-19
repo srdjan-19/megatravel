@@ -1,0 +1,10 @@
+.no-data {
+    color: darkgoldenrod;
+    font-size: 48px;
+    padding: 16px;
+    border: 2px solid goldenrod;
+    width: fit-content;
+    margin: auto;
+    text-align: center;
+    font-variant: small-caps;
+}

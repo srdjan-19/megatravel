@@ -1,0 +1,25 @@
+.table-header-text {
+    color: darkcyan;
+    background: white;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.table-body-text {
+    color: black;
+    background: white;
+    text-align: center;
+    font-size: 18px;
+}
+
+.blocked {
+    color:darkgoldenrod;
+    background-color: beige;
+}
+
+.activated {
+    color: green;
+    background-color: beige;
+}

@@ -1,0 +1,117 @@
+<div class="container-fluid ">
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="row">
+      <div class="col-lg-4 col-md-12 col-sm-12 text-center mt-4">
+        <div class="card card-border">
+          <button class="btn-outline-cyan" data-toggle="collapse" data-target="#collapseSortAndSearch" role="button"
+            aria-expanded="false" aria-controls="collapseSortAndSearch">
+            Filter and sort accommodations
+          </button>
+          <div class="collapse mt-2" id="collapseSortAndSearch">
+            <div class="container-fluid">
+              <div class="column">
+                <!-- Search accommodation -->
+                <div class="col-lg-12 col-sm-12 col-md-12 mt-4">
+                  <div class="active-cyan-3 mb-4 ">
+                    <label class="input-group-text input-group-red">NAME</label>
+                    <input class="form-control" type="text" placeholder="Search" aria-label="Search"
+                      [(ngModel)]="searchName">
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="active-cyan-3 mb-4 ">
+                    <label class="input-group-text ">TYPE</label>
+                    <input class="form-control" type="text" placeholder="Hotel, Motel, Apartment, ..."
+                      aria-label="Search" [(ngModel)]="searchType">
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="active-cyan-3 mb-4 ">
+                    <label class="input-group-text ">CATEGORY</label>
+                    <input class="form-control" type="text" placeholder="1*, 2*, 3*, ..." aria-label="Search"
+                      [(ngModel)]="searchCategory">
+                  </div>
+                </div>
+                <div>
+                  <button class="btn-outline-cyan mb-2" type="button" (click)="search()">
+                    Search
+                  </button>
+                </div>
+                <hr />
+                <!--Sort accommodations -->
+                <div class="col-lg-12 col-sm-12 col-md-12 btn-group-vertical mt-2 mb-4 w-100" role="group">
+                  <button id="btnGroupSortBy" class="btn-outline-cyan btn-block" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">Sort by</button>
+                  <div class="dropdown-menu" aria-labelledby="btnGroupSortBy">
+                    <button (click)="sortByCategory()" type="button" class="btn btn-block">Category</button>
+                    <button (click)="sortByType()" type="button" class="btn btn-block">Type</button>
+                    <button (click)="sortByPrice()" type="button" class="btn btn-block">Price</button>
+                    <button (click)="sortByDistance()" type="button" class="btn btn-block">Distance</button>
+                    <button (click)="sortByRating()" type="button" class="btn btn-block">Rating</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Accommodations -->
+      <div class="col-lg-8 col-md-12 col-sm-12">
+        <nav class="mt-4 ml-4" aria-label="Page navigation top">
+          <ul class="pagination justify-content-center">
+            <div class="container">
+              <div class="row mx-auto">
+                <div class="page-item " (click)="previousPage()">
+                  <a class="page-link page-item" tabindex=" -1">Previous</a>
+                </div>
+                <div *ngFor="let x of [].constructor(20); let i = index;">
+                  <div class="page-item" [ngClass]="{'active': page === i}" (click)="changePage(i)">
+                    <a class="page-link ">{{i+1}}</a>
+                  </div>
+                </div>
+                <div class="page-item" (click)="nextPage()">
+                  <a class="page-link page-item" tabindex=" -1">Next</a>
+                </div>
+              </div>
+            </div>
+          </ul>
+        </nav>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 w-100" *ngFor="let a of accommodations; let i = index">
+              <div class="card border-info text-info text-center mt-4">
+                <div class="card-body">
+                  <h5 class="card-title">{{a.name}} </h5>
+                  <div>
+                    <span>TYPE: {{a.type.name}}</span>
+                  </div>
+                  <div>
+                    <span>CATEGORY: {{a.category.name}}</span>
+                  </div>
+                  <div class="input-group-prepend">
+                    <input type="date" id={{$index}} [min]="minDate" class="form-control mt-2"
+                      [(ngModel)]="selectedFrom" placeholder="From Date" required><br>
+                  </div>
+                  <div>
+                    <input type="date" [min]="minDateTill" class="form-control mt-2" [(ngModel)]="selectedTill"
+                      placeholder="Till Date" required><br>
+                  </div>
+                  <div class="card-footer">
+                    <button *ngIf="isEndUser" (click)="reserve(i)" class="btn-block btn-outline-purple">RESERVE</button>
+                    <button type="button" class="btn-block btn-outline-gold" data-toggle="modal"
+                      [attr.data-target]="'#accommodation' + i">DETAILS </button>
+                  </div>
+                </div>
+                <!-- Accommodation Details -->
+                <div class="modal" id="accommodation{{i}}" tabindex="-1" role="dialog"
+                  aria-labelledby="accommodation-details" aria-hidden="true">
+                  <app-accommodation-details [accommodation]=a></app-accommodation-details>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
-import { TokenStorageService  } from '../../auth/token-storage.service';
+import { TokenStorageService } from '../../auth/token-storage.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,16 +10,15 @@ import { TokenStorageService  } from '../../auth/token-storage.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
-  isLoggedIn : boolean;
+  isLoggedIn: boolean;
   isEndUser: boolean;
 
   public logo = 'assets/logo.png'
 
 
   constructor(private authService: AuthService,
-              private tokenStorageService: TokenStorageService,
-              private router: Router) {}
+    private tokenStorageService: TokenStorageService,
+    private router: Router) { }
 
   ngOnInit() {
 
@@ -34,11 +33,18 @@ export class NavbarComponent implements OnInit {
 
   signout() {
     this.tokenStorageService.signOut();
-    window.location.reload();
+    this.isLoggedIn = false;
+    this.isEndUser = false;
+    this.router.navigate(['/home']);
   }
-  
-  popUpSignUp() {
-    
+
+  signed() {
+    if (this.tokenStorageService.getToken() != null) {
+      this.isLoggedIn = true;
+
+      if (this.tokenStorageService.getAuthorities().includes('ROLE_END_USER'))
+        this.isEndUser = true;
+    }
   }
 
 }

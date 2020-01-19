@@ -1,9 +1,65 @@
-/* You can add global styles to this file, and also import other style files */
-.background {
+@import '~ngx-toastr/toastr.css';
+
+.main {
     background-image:url("assets/background.jpg");
     background-repeat: repeat;
+    font-family: 'Bebas Neue', cursive;
 }
 
-body {
-    font-family: 'Marcellus', serif;
+.btn {
+    border-radius: 0;
+}
+
+.btn-outline-cyan {
+    color: darkcyan;
+    background: white;
+    border: 1px solid darkcyan;
+    letter-spacing: 1.5px;
+}
+
+.btn-outline-cyan:hover {
+    background: darkcyan;
+    color: white;
+    border: 1px solid darkcyan;    
+    letter-spacing: 1.5px;
+}
+
+.btn-outline-gold {
+    color: darkgoldenrod;
+    background: whitesmoke;
+    border: 1px solid darkgoldenrod;
+}
+
+.btn-outline-gold:hover {
+    background: darkgoldenrod;
+    color: whitesmoke;
+    border: 1px solid darkgoldenrod;
+}
+
+.btn-outline-purple {
+    color: darkblue;
+    background: whitesmoke;
+    border: 1px solid darkblue;
+}
+
+.btn-outline-purple:hover {
+    background: darkblue;
+    color: whitesmoke;
+    border: 1px solid darkblue;
+}
+
+.modal {
+    border-radius: 0;
+}
+
+.list-group {
+    border-radius: 0;
+}
+
+.toast-container {
+    border-radius: 0;
+    letter-spacing: 2px;
+    font-family: "Kanit", cursive;
+    font-variant: small-caps;
+    
 }

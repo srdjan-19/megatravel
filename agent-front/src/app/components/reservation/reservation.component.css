@@ -1,0 +1,37 @@
+.thead-text {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-align: center;
+    color: darkcyan;
+    background: white;
+}
+
+.tbody-text {
+    letter-spacing: 2px;
+    font-size: 14px;
+    color: black;
+    background: whitesmoke;
+}
+
+.no-border-left {
+    border-left: none;
+}
+
+.no-border-right {
+    border-right: none;
+}
+
+.btn {
+    letter-spacing: 2px;
+}
+
+.rejected {
+    color:crimson;
+    background-color: beige;
+}
+
+.approved {
+    color: green;
+    background-color: beige;
+}

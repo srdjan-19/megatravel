@@ -1,0 +1,57 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~font-awesome/css/font-awesome.css";
+
+.background {
+    background-image:url("assets/background.jpg");
+    background-repeat: repeat;
+}
+
+body {
+    font-family: 'Teko', sans-serif;
+    letter-spacing: 2px;
+}
+
+.btn {
+    border-radius: 0;
+    letter-spacing: 2px;
+    font-family: 'Bebas Neue', cursive;
+
+}
+
+.btn-outline-cyan {
+    color: darkcyan;
+    background: white;
+    border: 1px solid darkcyan;
+}
+
+.btn-outline-cyan:hover {
+    background: darkcyan;
+    color: white;
+    border: 1px solid darkcyan;
+}
+
+.modal {
+    border-radius: 0;
+}
+
+.input-text {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.table-header-text {
+    font-family: 'Bebas Neue', cursive;
+    color: darkcyan;
+    background: white;
+    text-align: center;
+    font-size: 14px;
+}
+
+.table-body-text {
+    font-family: 'Muli', sans-serif;
+    font-variant: small-caps;
+    color: black;
+    background-color: white;
+    text-align: start;
+    font-size: 18px;
+}

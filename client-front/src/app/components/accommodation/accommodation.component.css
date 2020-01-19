@@ -1,0 +1,37 @@
+.card {
+    font-family: 'Bebas Neue', cursive; 
+}
+
+.card {
+    height: max-content;
+    border: 1px solid darkcyan;
+    border-radius: 0;
+}
+
+.input-group-text {
+    background: darkcyan;
+    color: whitesmoke;
+    border: 1px solid darkcyan;
+    border-radius: 0;
+}
+
+.form-control {
+    font-family: 'Kanit', cursive;
+    font-variant: small-caps;
+    border-radius: 0;
+}
+
+.page-item .page-link {
+    background: white;
+    color: darkcyan;
+}
+
+.page-item.active .page-link {
+    border: 1px solid darkgoldenrod;
+    border-bottom: 8px solid darkgoldenrod;
+    border-radius: 0;
+    background: whitesmoke;
+    color: darkgoldenrod;
+    font-size: 20;
+    margin-bottom: 12px;
+}

@@ -1,0 +1,28 @@
+th {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-align: center;
+    vertical-align: top;
+    color: darkcyan;
+    background-color: white;
+}
+
+tr {
+    letter-spacing: 2px;
+    font-size: 14px;
+    color: black;
+    background: whitesmoke;
+}
+
+.btn-outline-cyan {
+    color: darkcyan;
+    background: white;
+    border: 1px solid darkcyan;
+}
+
+.btn-outline-cyan:hover {
+    background: darkcyan;
+    color: white;
+    border: 1px solid darkcyan;
+}

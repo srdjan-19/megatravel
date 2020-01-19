@@ -1,0 +1,47 @@
+<section class="intro">
+  <div class="container-fluid mt-2">
+    <div class="row">
+      <div class="col-md-12 mr-4">
+        <div class="table-responsive">
+          <table class="table table-striped table-light table-bordered my-2">
+            <tr class="thead-text">
+              <th>ID</th>
+              <th>Status</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Address</th>
+              <th>Rating</th>
+              <th>Check in</th>
+              <th>Check out</th>
+              <th colspan="2">Actions</th>
+            </tr>
+            <tr class="tbody-text" [ngClass]="{'rejected': rejectedIndex == i, 'approved': approvedIndex == i}"
+              *ngFor="let reservation of reservations; let i = index;"
+              id="{{reservation.accommodation.name}}{{reservation.id}}">
+              <td>{{reservation.id}}</td>
+              <td>{{reservation.status}}</td>
+              <td>{{reservation.accommodation.name}}</td>
+              <td>{{reservation.accommodation.type.name}}</td>
+              <td>{{reservation.accommodation.address.street}} {{reservation.accommodation.address.city}}</td>
+              <td> </td>
+              <td>{{reservation.fromDate | date: 'dd/MM/yyyy'}}</td>
+              <td>{{reservation.tillDate | date: 'dd/MM/yyyy'}}</td>
+              <td *ngIf="isAgent" class="no-border-right">
+                <button type="button" (click)="approve(reservation.id)" class="btn btn-outline-success mr-2">
+                  <i class="fas fa-check-square mr-1"></i>
+                  Approve
+                </button>
+              </td>
+              <td class="no-border-left">
+                <button type="button" (click)="reject(reservation.id, $event)" class="btn btn-outline-danger">
+                  <i class="fa fa-ban mr-1"></i>
+                  Reject
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

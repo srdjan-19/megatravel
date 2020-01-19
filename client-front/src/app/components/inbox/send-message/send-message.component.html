@@ -1,0 +1,28 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="h4 modal-title text-gold" id="sendMessage">NEW MESSAGE</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <span>
+          <label class="h6 text-gold">
+            {{name}}
+          </label>
+        </span>
+      </div>
+      <div>
+        <span>
+          <textarea class="form-control" rows="5" [(ngModel)]="message.content"></textarea>
+        </span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+      <button (click)="send()" type="button" class="btn btn-outline-gold" data-dismiss="modal">Send</button>
+    </div>
+  </div>
+</div>

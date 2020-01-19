@@ -5,7 +5,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="ml-4 col-lg text-center">
-							<p class="h4 text-white font-weight-bold">SIGN IN</p>
+							<p class="h4 text-white">SIGN IN</p>
 						</div>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -16,13 +16,14 @@
 			<div id="content" class="container text-center p-3 rounded">
 				<form method="post" data-ng-submit="signin(log)">
 					<div class="text-center">
-						<i class="icon fa fa-user-circle"></i>
+						<i class="icon far fa-id-badge"></i>
 					</div>
 					<div [formGroup]="signRequest" class="form-group mx-auto w-50">
 						<input formControlName="username" type="text" class="form-control my-3" placeholder="username">
 						<input formControlName="password" type="password" class="form-control mb-3"
 							placeholder="password">
-						<button (click)="signIn()" class="btn btn-outline-primary btn-block font-weight-bold">SIGN IN
+						<button (click)="signIn()" class="btn btn-outline-cyan btn-block">
+							SIGN IN
 						</button>
 					</div>
 				</form>
