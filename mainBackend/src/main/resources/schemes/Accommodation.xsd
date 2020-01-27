@@ -164,6 +164,8 @@
             <xs:sequence>
                 <xs:element name="accommodationName" type="xs:string"/>
                 <xs:element name="content" type="xs:string"/>
+                <xs:element name="fromDate" type="xs:date"/>
+ 				<xs:element name="tillDate" type="xs:date"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -192,6 +194,45 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    
+    	<xs:complexType name="createAddressRequest">
+	    	<xs:sequence>
+		    	<xs:element name="country" type="xs:string"/>
+	            <xs:element name="city" type="xs:string"/>
+	            <xs:element name="zip">
+	                <xs:simpleType>
+	                    <xs:restriction base="xs:int">
+	                        <xs:minExclusive value="10000"/>
+	                        <xs:maxExclusive value="95000"/>
+	                    </xs:restriction>
+	                </xs:simpleType>
+	            </xs:element>
+	            <xs:element name="street">
+	                <xs:simpleType>
+	                    <xs:restriction base="xs:string">
+	                        <xs:maxLength value="50"/>
+	                        <xs:minLength value="5"/>
+	                    </xs:restriction>
+	                </xs:simpleType>
+	            </xs:element>
+	            <xs:element name="longitude">
+	                <xs:simpleType>
+	                    <xs:restriction base="xs:double">
+	                        <xs:minInclusive value="0"/>
+	                        <xs:maxInclusive value="180"/>
+	                    </xs:restriction>
+	                </xs:simpleType>
+	            </xs:element>
+	            <xs:element name="latitude">
+	                <xs:simpleType>
+	                    <xs:restriction base="xs:double">
+	                        <xs:minInclusive value="0"/>
+	                        <xs:maxInclusive value="180"/>
+	                    </xs:restriction>
+	                </xs:simpleType>
+	            </xs:element>
+	    	</xs:sequence>
+    	</xs:complexType>
 
     <xs:element name="createAccommodationRequest">
         <xs:complexType>
@@ -200,15 +241,8 @@
 	            <xs:element name="owner" type="xs:string"/>
 	            <xs:element name="type" type="xs:string"/>
 	            <xs:element name="category" type="xs:string"/>
-	            <xs:element name="distance">
-	                <xs:simpleType>
-	                    <xs:restriction base="xs:double">
-	                        <xs:minExclusive value="0"/>
-	                    </xs:restriction>
-	                </xs:simpleType>
-            	</xs:element>
 	            <xs:element name="description" type="xs:string"/>
-	            <xs:element name="city" type="xs:string"/>
+	            <xs:element name="address" type="ac:createAddressRequest"/>
 	            <xs:element name="capacity">
 	            	<xs:simpleType>
 		            	<xs:restriction base="xs:int">
@@ -246,13 +280,6 @@
 	            <xs:element name="newName" type="xs:string"/>
 	            <xs:element name="type" type="xs:string"/>
 	            <xs:element name="category" type="xs:string"/>
-	            <xs:element name="distance">
-	                <xs:simpleType>
-	                    <xs:restriction base="xs:double">
-	                        <xs:minExclusive value="0"/>
-	                    </xs:restriction>
-	                </xs:simpleType>
-	            </xs:element>
 	            <xs:element name="description" type="xs:string"/>
 	            <xs:element name="city" type="xs:string"/>
 	            <xs:element name="capacity">

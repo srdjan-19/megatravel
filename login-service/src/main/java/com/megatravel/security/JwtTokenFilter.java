@@ -20,6 +20,7 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import com.megatravel.exception.ExceptionResponse;
 
+import feign.Request;
 import io.jsonwebtoken.JwtException;
 
 @Component
@@ -38,7 +39,9 @@ public class JwtTokenFilter extends GenericFilterBean {
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
 			throws IOException, ServletException {
 		
-		logger.info("FILTRIRAM");
+		logger.debug("Request port: " + req.getLocalPort());
+		logger.debug("Request server name: " + req.getServerName());
+		
 		HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         String token = jwtTokenProvider.resolveToken(request);

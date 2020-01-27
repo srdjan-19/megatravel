@@ -34,4 +34,10 @@ public class AddressService {
 	public Address save(Address adresa) {
 		return addressRepository.save(adresa);
 	}
+
+	@Transactional(readOnly = true)
+	public Address findById(long id) {
+		// TODO Auto-generated method stub
+		return addressRepository.findById(id).orElse(null);
+	}
 }

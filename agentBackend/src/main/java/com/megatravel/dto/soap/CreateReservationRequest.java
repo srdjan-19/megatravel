@@ -49,13 +49,13 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlRootElement(name = "createReservationRequest", namespace = "http://www.megatravel.com/reservation")
 public class CreateReservationRequest {
 
-    @XmlElement(namespace = "http://www.megatravel.com/reservation", required = true)
+    @XmlElement(required = true)
     @XmlSchemaType(name = "date")
     protected Date fromDate;
-    @XmlElement(namespace = "http://www.megatravel.com/reservation", required = true)
+    @XmlElement(required = true)
     @XmlSchemaType(name = "date")
     protected Date tillDate;
-    @XmlElement(namespace = "http://www.megatravel.com/reservation", required = true)
+    @XmlElement(required = true)
     protected String accommodationName;
 
     /**

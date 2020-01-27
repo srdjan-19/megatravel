@@ -29,7 +29,7 @@ public class AdditionalServicesController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AGENT')")
-	@RequestMapping(value = "/find/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseAdditionalService> findById(@PathVariable Long id) {
 		return ResponseEntity.ok(AdditionalServiceConverter.toResponseFromEntity(asService.findById(id)));
 	}

@@ -97,7 +97,7 @@
 	            <xs:element name="email" type="xs:string"/>
 	            <xs:element name="firstName" type="xs:string"/>
 	            <xs:element name="lastName" type="xs:string"/>
-	            <xs:element name="city" type="xs:string"/>
+	            <xs:element name="city" type="xs:long"/>
 	            <xs:element name="brn">
 	            	<xs:simpleType>
 						<xs:restriction base="xs:int">

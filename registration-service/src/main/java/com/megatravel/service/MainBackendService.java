@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.megatravel.dto.request.CreateEndUserRequest;
 import com.megatravel.dto.response.ResponseEndUser;
-import com.megatravel.dto.response.ResponseRole;
 
 @Service
 @FeignClient("main-backend")
 public interface MainBackendService {
 	
-	@RequestMapping(value="/users/find/enduser/username={username}", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/users/enduser/username={username}", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEndUser findEndUser(@PathVariable String username);
 	
 	@RequestMapping(value="/users", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

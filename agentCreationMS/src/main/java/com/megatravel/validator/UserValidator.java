@@ -52,10 +52,7 @@ public class UserValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "brn", "brn.required", "Enter brn");
 		ValidationUtils.rejectIfEmpty(errors, "firstName", "firstName.required", "Enter first name");
 		ValidationUtils.rejectIfEmpty(errors, "lastName", "lastName.required", "Enter last name");
-		ValidationUtils.rejectIfEmpty(errors, "city", "city.required", "Enter city");
 
-
-		
 	}
 
 }

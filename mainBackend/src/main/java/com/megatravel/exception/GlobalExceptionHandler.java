@@ -1,14 +1,18 @@
 package com.megatravel.exception;
 
+import java.io.IOException;
+
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.RollbackException;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -20,28 +24,28 @@ public class GlobalExceptionHandler {
         response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
     
-    @ExceptionHandler(ExceptionResponse.class)
-    public void handleCustomException(HttpServletResponse response, ExceptionResponse e) throws IOException {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public void handleEntityNotFoundException(HttpServletResponse response, EntityNotFoundException e) throws IOException {
         LOG.error("ERROR", e);
-        response.sendError(e.getHttpStatus().value(), e.getMessage());
+        response.sendError(HttpStatus.NOT_FOUND.value(), e.getMessage());
     }
 
+    @ExceptionHandler(EntityExistsException.class)
+    public void handleEntityAlreadyExistException(HttpServletResponse response, EntityExistsException e) throws IOException {
+        LOG.error("ERROR", e);
+        response.sendError(HttpStatus.CONFLICT.value(), e.getMessage());
+    }
+    
     @ExceptionHandler(AccessDeniedException.class)
     public void handleAccessDeniedException(HttpServletResponse response, AccessDeniedException e) throws IOException {
         LOG.error("ERROR", e);
         response.sendError(HttpStatus.FORBIDDEN.value(), "Access denied");
     }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public void handleIllegalArgumentException(HttpServletResponse response, IllegalArgumentException e) throws IOException {
-       // LOG.error("ERROR", e);
-        response.sendError(HttpStatus.BAD_REQUEST.value(), "Something went wrong! \nIllegal arguments!");
-    }
-
-    @ExceptionHandler(Exception.class)
-    public void handleException(HttpServletResponse response, Exception e) throws IOException {
-       // LOG.error("ERROR", e);
-        response.sendError(HttpStatus.BAD_REQUEST.value(), "Something went wrong");
+    
+    @ExceptionHandler(RollbackException.class)
+    public void handleRollbackException(HttpServletResponse response, RollbackException e) throws IOException {
+        LOG.error("ERROR", e);
+        response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
 

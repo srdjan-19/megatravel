@@ -23,36 +23,36 @@ import com.megatravel.service.AccommodationCategoryService;
 public class AccommodationCategoryController {
 	
 	@Autowired
-	private AccommodationCategoryService acService;
+	private AccommodationCategoryService accommodationCategoryService;
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ResponseAccommodationCategory>> create(@RequestBody CreateAccommodationCategoryRequest request) {
-		return ResponseEntity.ok(AccommodationCategoryConverter.fromEntityList(acService.create(request), (category -> AccommodationCategoryConverter.toResponseFromEntity(category))));
+	public ResponseEntity<ResponseAccommodationCategory> create(@RequestBody CreateAccommodationCategoryRequest request) {
+		return ResponseEntity.ok(AccommodationCategoryConverter.toResponseFromEntity(accommodationCategoryService.create(request)));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ResponseAccommodationCategory>> findAll() {
-		return ResponseEntity.ok(AccommodationCategoryConverter.fromEntityList(acService.findAll(), (category -> AccommodationCategoryConverter.toResponseFromEntity(category))));
+		return ResponseEntity.ok(AccommodationCategoryConverter.fromEntityList(accommodationCategoryService.findAll(), (category -> AccommodationCategoryConverter.toResponseFromEntity(category))));
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseAccommodationCategory> findById(@PathVariable Long id) {
+		return ResponseEntity.ok(AccommodationCategoryConverter.toResponseFromEntity(accommodationCategoryService.findById(id)));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ResponseAccommodationCategory>> update(@RequestBody UpdateAccommodationCategoryRequest request) {
-		return ResponseEntity.ok(AccommodationCategoryConverter.fromEntityList(acService.modify(request), (category -> AccommodationCategoryConverter.toResponseFromEntity(category))));
+	public ResponseEntity<ResponseAccommodationCategory> update(@RequestBody UpdateAccommodationCategoryRequest request) {
+		return ResponseEntity.ok(AccommodationCategoryConverter.toResponseFromEntity(accommodationCategoryService.modify(request)));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/delete/{name}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ResponseAccommodationCategory>> delete(@PathVariable("name") String name) {
-		return ResponseEntity.ok(AccommodationCategoryConverter.fromEntityList(acService.delete(name), (category -> AccommodationCategoryConverter.toResponseFromEntity(category))));
-	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/find/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ResponseAccommodationCategory> findById(@PathVariable Long id) {
-		return ResponseEntity.ok(AccommodationCategoryConverter.toResponseFromEntity(acService.findById(id)));
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Long> delete(@PathVariable Long id) {
+		return ResponseEntity.ok(accommodationCategoryService.delete(id));
 	}
 	
 }

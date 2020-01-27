@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: eureka-server
+
+server:
+  port: 8440
+  ssl:
+    enabled: true
+    protocol: TLS
+    key-store-type: JKS
+    key-store: classpath:store/eureka.jks
+    key-store-password: megatravel
+    key-alias: eureka
+    key-password: megatravel
+    client-auth: need    
+    trust-store: classpath:store/eureka.jks
+    trust-store-password: megatravel
+    trust-store-type: JKS
+
+eureka:
+  instance:
+      hostname: localhost
+      nonSecurePortEnabled: false
+      securePortEnabled: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: https://localhost:8440/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+
+ribbon:
+  secure-ports:
+  - 8443 # zuul-gateway
+  - 8445 # main-backend
+  - 8446 # agent-backend
+  - 8448 # agent-creation
+  - 8449 # login-service
+  - 8450 # registration-service
+  eureka:
+    enabled: true
+    
+logging:
+ file: eureka.log
+ level:
+   root: INFO
+ pattern:
+   console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
+   file: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
+
+
+    

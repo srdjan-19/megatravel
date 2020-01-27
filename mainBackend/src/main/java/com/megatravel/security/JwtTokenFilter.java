@@ -9,20 +9,22 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-
-import com.megatravel.exception.ExceptionResponse;
 
 import io.jsonwebtoken.JwtException;
 
 @Component
 public class JwtTokenFilter extends GenericFilterBean {
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 
@@ -34,15 +36,21 @@ public class JwtTokenFilter extends GenericFilterBean {
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
+        
+        logger.info("Request from -- " + req.getLocalName() + ":" + req.getLocalPort());
+        logger.info("Request IP   -- Remote address: " + req.getRemoteAddr() + " -- Port: " + req.getRemotePort());
+        logger.info("Resolving token...");
         String token = jwtTokenProvider.resolveToken(request);
 
         if (token != null) {
             try {
+                logger.debug("Validating token...");
                 jwtTokenProvider.validateToken(token) ;
             } catch (JwtException | IllegalArgumentException e) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalid JWT token");
-                throw new ExceptionResponse("Invalid JWT token",HttpStatus.UNAUTHORIZED);
+                throw new AccessDeniedException("Invalid JWT token");
             }
+            
             Authentication auth = token != null ? jwtTokenProvider.getAuthentication(token) : null;
             SecurityContextHolder.getContext().setAuthentication(auth);
         }

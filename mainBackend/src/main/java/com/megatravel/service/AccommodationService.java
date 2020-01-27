@@ -3,11 +3,14 @@ package com.megatravel.service;
 import java.util.Date;
 import java.util.List;
 
-import org.jboss.logging.LogMessage;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +18,7 @@ import com.megatravel.dto.soap.CreateAccommodationRequest;
 import com.megatravel.dto.soap.CreateAccommodationRequest.Pricelist;
 import com.megatravel.dto.soap.DeleteAccommodationRequest;
 import com.megatravel.dto.soap.UpdateAccommodationRequest;
-import com.megatravel.exception.ExceptionResponse;
+import com.megatravel.exception.BadRequestException;
 import com.megatravel.model.Accommodation;
 import com.megatravel.model.AccommodationCategory;
 import com.megatravel.model.AccommodationType;
@@ -28,6 +31,7 @@ import com.megatravel.repository.AccommodationRepository;
 
 @Service
 public class AccommodationService {
+	private final Logger logger = LoggerFactory.getLogger(AccommodationService.class);
 	
 	@Autowired
 	private AccommodationRepository accommodationRepository;
@@ -49,26 +53,25 @@ public class AccommodationService {
 	
 	@Autowired
 	private CancellationService cancellationService;
-	
-	private final Logger logger = LoggerFactory.getLogger(AccommodationService.class);
-	
+		
 	@Autowired
 	private UserService userService;
 	
 	@Transactional(readOnly = true)
-	public Accommodation findById(long accId) {
-		return this.accommodationRepository.findById(accId);
+	public Accommodation findById(long id) {
+		return accommodationRepository.findById(id).orElseThrow(() -> new BadRequestException("Accommodation with id '" + id + "' does not exist!"));
 	}
 	
 	@Transactional(readOnly = true)
 	public Accommodation findByName(String accName) {
-		return this.accommodationRepository.findByName(accName);
+		return accommodationRepository.findByName(accName);
 	}
 	
-	//TODO retrieve only visible comments
 	@Transactional(readOnly = true)
-	public List<Accommodation> findAll() {
-		return this.accommodationRepository.findAll();
+	public List<Accommodation> findAll(int page) {
+		Pageable retrieve = PageRequest.of(page, 15);
+		
+		return accommodationRepository.findAll(retrieve).getContent();
 	}
 	
 	@Transactional(readOnly = true)
@@ -85,23 +88,10 @@ public class AccommodationService {
 	public Accommodation checkAvailability(Date startDate, Date endDate, String accommodationName) {
 		return this.accommodationRepository.checkAvailability(startDate, endDate, accommodationName);
 	}
-
-	@Transactional(rollbackFor = Exception.class)
-	public String delete(DeleteAccommodationRequest request) {
-		Accommodation accommodation = accommodationRepository.findByName(request.getName());
-		
-		if (accommodation == null)
-			throw new ExceptionResponse("Accommodation '" + request.getName() + "' does not exist!", HttpStatus.BAD_REQUEST);
-		
-		accommodationRepository.delete(accommodation);
-		
-        return "Accommodation '" + request.getName() + "' has been deleted!";
-		
-	}
-
+	
 	//TODO name validation
 	@Transactional(rollbackFor = Exception.class)
-	public String create(CreateAccommodationRequest request) {
+	public Accommodation create(CreateAccommodationRequest request) {
 		Agent agent = userService.findAgent(request.getOwner());
 		
 		Accommodation accommodation = new Accommodation();
@@ -117,7 +107,7 @@ public class AccommodationService {
 		for (String asName : request.getAdditionalServices()) {
 			AdditionalService as = aditionalServices.findByName(asName);
 			if (as == null)
-				throw new ExceptionResponse("Additional service '" + asName + "' does not exist!", HttpStatus.BAD_REQUEST);
+				throw new EntityNotFoundException("Additional service '" + asName + "' does not exist!");
 			else
 				accommodation.getAdditionalServices().add(as);
 		}
@@ -140,22 +130,18 @@ public class AccommodationService {
 		
 		accommodation.setCancellation(cancellation);
 		
-		accommodationRepository.save(accommodation);
-
-		return "Accommodation '" + accommodation.getName() + "' has been created!";
+		return accommodationRepository.save(accommodation);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public String update(UpdateAccommodationRequest request) {
+	public Accommodation update(UpdateAccommodationRequest request) {
 
-		Accommodation accommodation = accommodationRepository.findById(request.getId());
+		Accommodation accommodation = accommodationRepository.findById(request.getId()).orElseThrow(() -> new BadRequestException("Accommodation with id '" + request.getId() + "' does not exist!"));
 		
-		if (accommodation == null)
-			throw new ExceptionResponse("Accommodation with id '" + request.getId() + "' does not exist!", HttpStatus.BAD_REQUEST);
 		
 		if (request.getNewName() != null) {
 			if (accommodationRepository.findByName(request.getNewName()) != null)
-				throw new ExceptionResponse("Accommodation with name '" + request.getId() + "' already exist!", HttpStatus.BAD_REQUEST);
+				throw new EntityExistsException("Accommodation with name '" + request.getId() + "' already exist!");
 			
 			accommodation.setName(request.getNewName());
 		}
@@ -164,7 +150,7 @@ public class AccommodationService {
 			AccommodationCategory category = accommodationCategoryService.findByName(request.getCategory());
 			
 			if (category == null)
-				throw new ExceptionResponse("Accommodation category with name '" + request.getCategory() + "' does not exist!", HttpStatus.BAD_REQUEST);
+				throw new EntityNotFoundException("Accommodation category with name '" + request.getCategory() + "' does not exist!");
 
 			accommodation.setCategory(category);
 		}
@@ -173,12 +159,27 @@ public class AccommodationService {
 			AccommodationType type = accommodationTypeService.findByName(request.getType());
 			
 			if (type == null)
-				throw new ExceptionResponse("Accommodation type with name '" + request.getCategory() + "' does not exist!", HttpStatus.BAD_REQUEST);
+				throw new EntityNotFoundException("Accommodation type with name '" + request.getCategory() + "' does not exist!");
 
 			accommodation.setType(type);
 		}
 		
-		return "Accommodation with id '" + accommodation.getId() + "' has been updated!";
+		return accommodation;
 		
 	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public Accommodation delete(DeleteAccommodationRequest request) {
+//		Accommodation accommodation = accommodationRepository.findById(request.getId()).orElseThrow(() -> new BadRequestException("Accommodation with id '" + request.getId() + "' does not exist!"));
+		Accommodation accommodation = accommodationRepository.findByName(request.getName());
+		accommodationRepository.delete(accommodation);
+		
+		return accommodation;
+	}
+
+	@Transactional(readOnly = true)
+	public List<Accommodation> search(String name, String type, String category) {
+		return accommodationRepository.search(name, type, category);
+	}
+	
 }

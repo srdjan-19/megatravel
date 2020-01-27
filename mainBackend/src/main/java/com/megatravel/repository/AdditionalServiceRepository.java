@@ -12,7 +12,7 @@ public interface AdditionalServiceRepository extends JpaRepository<AdditionalSer
 
 	@Modifying
 	@Query(value = "UPDATE additional_service SET name = ?2 WHERE id = ?1", nativeQuery = true)
-	void modifyAS(Long id, String name);
+	void modify(Long id, String name);
 	
 	AdditionalService findByName(String name);
 	

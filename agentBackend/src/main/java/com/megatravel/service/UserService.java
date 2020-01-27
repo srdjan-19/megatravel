@@ -16,7 +16,6 @@ import com.megatravel.dto.soap.CreateAgentRequest;
 import com.megatravel.dto.soap.UserResponse;
 import com.megatravel.model.Agent;
 import com.megatravel.model.EndUser;
-import com.megatravel.model.Message;
 import com.megatravel.model.Reservation;
 import com.megatravel.model.Roles;
 import com.megatravel.model.User;
@@ -46,18 +45,13 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<User> getUsers() {
-		return userRepository.findAll();
-	}
-	
-	@Transactional(readOnly = true)
-	public EndUser findEndUser(String username) {
-		return userRepository.findEndUserByUsername(username);
-	}
-	
-	@Transactional(readOnly = true)
 	public Agent findAgent(String username) {
 		return userRepository.findAgentByUsername(username);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<User> getUsers() {
+		return userRepository.findAll();
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
@@ -66,11 +60,11 @@ public class UserService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public List<Agent> complete(CreateAgentRequest request) {
+	public Agent complete(CreateAgentRequest request) {
 		
 		Agent agent = AgentConverter.toEntityFromRequest(request);
 		
-		agent.setAddress(addressService.findByCity(request.getCity()));
+		agent.setAddress(addressService.findById(request.getAddressId()));
 		agent.getRoles().add(roleService.findByName(Roles.AGENT));
 		
 		try {
@@ -91,13 +85,13 @@ public class UserService {
                         
     		userRepository.save(agent);
 
-            return userRepository.findAgents();
+            return agent;
 
         } catch (Exception s) {
         	s.printStackTrace();
         }
 		
-        return userRepository.findAgents();
+        return agent;
 
 	}
 
@@ -107,9 +101,8 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Reservation> findMyReservations() {
-		return reservationService.findMyReservations();
+	public List<Reservation> findMyReservations(String username) {
+		return reservationService.findMyReservations(username);
 	}
-	
 	
 }

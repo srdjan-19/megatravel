@@ -28,14 +28,9 @@ public class AddressController {
 		return ResponseEntity.ok(AddressConverter.fromEntityList(addressService.findAll(), address -> AddressConverter.toResponseFromEntity(address)));
 	}
 	
-	@RequestMapping(value = "/find/zip={zip}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public Address findAddress(@PathVariable("zip") int zip) {
-		return addressService.findByZip(zip);
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
+	public Address findAddress(@PathVariable Long id) {
+		return addressService.findById(id);
 	}
 	
-	@RequestMapping(value = "/find/city={city}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public Address findAddressByCity(@PathVariable("city") String city) {
-		return addressService.findByCity(city);
-	}
-
 }

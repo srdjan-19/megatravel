@@ -8,8 +8,6 @@ import javax.xml.soap.MessageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -21,9 +19,9 @@ import com.megatravel.dto.soap.CreateReservationRequest;
 import com.megatravel.dto.soap.CudReservationResponse;
 import com.megatravel.dto.soap.UpdateReservationRequest;
 import com.megatravel.exception.ExceptionResponse;
-import com.megatravel.model.Agent;
 import com.megatravel.model.Reservation;
 import com.megatravel.model.ReservationStatus;
+import com.megatravel.model.User;
 import com.megatravel.repository.ReservationRepository;
 
 @Service
@@ -65,14 +63,14 @@ public class ReservationService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public List<Reservation> approve(UpdateReservationRequest request) {
+	public Reservation update(UpdateReservationRequest request, String username) {
 		
 		Optional<Reservation> reservation = reservationRepository.findById(request.getId());
 		
 		if (reservation.isPresent() == false)
 			throw new ExceptionResponse("Reservation with id '" + request.getId() + "' does not exist!", HttpStatus.BAD_REQUEST);
 		
-		reservation.get().setStatus(ReservationStatus.APPROVED);
+		reservation.get().setStatus(request.getStatus());
 		
 		try {
             SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory(MessageFactory.newInstance());
@@ -92,50 +90,14 @@ public class ReservationService {
 		            
     		reservationRepository.save(reservation.get());
     		
-            return findMyReservations();   
+            return reservation.get();   
 
         } catch (Exception s) {
             s.printStackTrace();
   
-            return findMyReservations();   
+            return reservation.get();   
         }
 		
-	}
-
-	@Transactional(rollbackFor = Exception.class)
-	public List<Reservation> reject(UpdateReservationRequest request) {
-		Optional<Reservation> reservation = reservationRepository.findById(request.getId());
-		
-		if (reservation.isPresent() == false)
-			throw new ExceptionResponse("Reservation with id '" + request.getId() + "' does not exist!", HttpStatus.BAD_REQUEST);
-		
-		reservation.get().setStatus(ReservationStatus.REJECTED);
-		
-		try {
-            SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory(MessageFactory.newInstance());
-            messageFactory.afterPropertiesSet();
-
-            WebServiceTemplate webServiceTemplate = new WebServiceTemplate(messageFactory);
-            Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-
-            marshaller.setContextPath("com.megatravel.model");
-            marshaller.afterPropertiesSet();
-
-            webServiceTemplate.setMarshaller(marshaller);
-            webServiceTemplate.setUnmarshaller(marshaller);
-            webServiceTemplate.afterPropertiesSet();
-           
-            CudReservationResponse response = (CudReservationResponse) soapConnector.callWebService(MAIN_APP + "booking/reservation", request);
-			            
-    		reservationRepository.save(reservation.get());
-
-            return findMyReservations();   
-
-        } catch (Exception s) {
-            s.printStackTrace();
-            
-            return findMyReservations();   
-        }
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -158,10 +120,8 @@ public class ReservationService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Reservation> findMyReservations() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		Agent agent = userService.findAgent(authentication.getName());
+	public List<Reservation> findMyReservations(String username) {		
+		User agent = userService.findAgent(username);
 		
 		return reservationRepository.findMyReservations(agent.getId());
 	}

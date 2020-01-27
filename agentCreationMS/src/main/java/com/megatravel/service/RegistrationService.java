@@ -28,8 +28,10 @@ public class RegistrationService {
 	@Autowired
 	private AgentBackendService agentBackend;
 	
-	public List<ResponseAgent> register(CreateAgentRequest request, BindingResult bindingResults) {
+	public ResponseAgent register(String authorizationHeader, CreateAgentRequest request, BindingResult bindingResults) {
 		
+		System.out.println("HEAADER: " + authorizationHeader);
+
 		userValidator.validate(request, bindingResults);
 		
 		if (bindingResults.hasErrors()) {
@@ -49,7 +51,7 @@ public class RegistrationService {
 		}
 		
 		request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
-		return agentBackend.complete(request);
+		return agentBackend.complete(authorizationHeader, request);
 	}
 	
 }

@@ -40,15 +40,15 @@ public class JwtTokenProvider {
     public String createToken(String username, List<String> roles) {
 
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put(AUTH,roles);
+        claims.put(AUTH, roles);
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
-        String token =  Jwts.builder()//
-                .setClaims(claims)//
-                .setIssuedAt(now)//
-                .setExpiration(validity)//
+        String token =  Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, secretKey)//
                 .compact();
         return token;
@@ -64,7 +64,7 @@ public class JwtTokenProvider {
         return null;
     }
 
-    public boolean validateToken(String token) throws JwtException,IllegalArgumentException{
+    public boolean validateToken(String token) throws JwtException, IllegalArgumentException{
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
     }
@@ -78,6 +78,7 @@ public class JwtTokenProvider {
     public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
+    
     public Authentication getAuthentication(String token) {
         //using data base: uncomment when you want to fetch data from data base
         UserDetails userDetails = userDetailsService.loadUserByUsername(getUsername(token));

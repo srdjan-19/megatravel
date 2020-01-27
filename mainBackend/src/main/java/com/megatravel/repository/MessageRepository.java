@@ -10,7 +10,7 @@ import com.megatravel.model.Message;
 public interface MessageRepository extends JpaRepository<Message, Long> {
 	List<Message> findAll();
 	
-	@Query(value = "SELECT * FROM maindb.message WHERE message.agent_id = ?1 and message.client_id = ?2", nativeQuery = true)
+	@Query(value = "SELECT * FROM message WHERE message.agent_id = ?1 and message.client_id = ?2", nativeQuery = true)
 	List<Message> findChatHistory(Long agentId, Long clientId);
 	
 }

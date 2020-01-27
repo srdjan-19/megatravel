@@ -2,8 +2,8 @@ spring:
   application:
     name: main-backend
   datasource:
-    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:mysql://localhost:3306/maindb?useSSL=true&createDatabaseIfNotExist=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/maindb?useSSL=true&createDatabaseIfNotExist=true
     username: root
     password: root
   jpa:
@@ -17,14 +17,15 @@ spring:
 server:
   port: 8445
   ssl:
-    key-store: classpath:ks/main-backend.p12
+    key-store: classpath:store/main-backend.jks
     key-alias: main-backend
-    key-store-type: PKCS12
+    key-store-type: JKS
     key-store-password: megatravel
     key-password: megatravel
-    trust-store: classpath:ks/tsmain-backend.p12
+#    client-auth: need
+    trust-store: classpath:store/main-backend.jks
     trust-store-password: megatravel
-    trust-store-type: PKCS12
+    trust-store-type: JKS
     
   error:    whitelabel:      enabled: false 
 # security.require-ssl=true
@@ -34,7 +35,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: https://eureka:admin@localhost:8443/eureka/
+      defaultZone: https://localhost:8440/eureka/
   instance:
     hostname: localhost    nonSecurePortEnabled: false
     securePortEnabled: true
@@ -43,7 +44,7 @@ eureka:
     homePageUrl: 'https://${eureka.instance.hostname}:${server.port}/'
 
 logging:  file: main-backend.log  level:    root: info
-  pattern:    console: "%d{dd-MM-yyyy HH:mm:ss.SSS} %highlight(%-5level) %logger.%M - %msg%n" 
-    file: "-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"
-    
+  pattern:    console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
+    file: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
+
 spring.jackson.default-property-inclusion: NON_NULL

@@ -16,6 +16,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -60,7 +61,11 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class Reservation {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(generator = "reservation_sequence")
+	@SequenceGenerator(initialValue=201, 
+                        allocationSize=1,
+                        name = "reservation_sequence", 
+                        sequenceName="reservation_sequence")
 	@NotNull
     protected long id;
     

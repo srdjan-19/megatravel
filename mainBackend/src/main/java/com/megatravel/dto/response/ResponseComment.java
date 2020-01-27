@@ -15,7 +15,6 @@ public class ResponseComment {
     }
     
     public ResponseComment(long id, String content, boolean visible, String postedBy) {
-		super();
 		this.id = id;
 		this.content = content;
 		this.visible = visible;

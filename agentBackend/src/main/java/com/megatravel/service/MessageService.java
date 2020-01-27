@@ -23,7 +23,9 @@ import com.megatravel.model.EndUser;
 import com.megatravel.model.Message;
 import com.megatravel.model.MessageStatus;
 import com.megatravel.model.Roles;
+import com.megatravel.model.User;
 import com.megatravel.repository.MessageRepository;
+import com.megatravel.repository.UserRepository;
 
 @Service
 public class MessageService {
@@ -41,30 +43,23 @@ public class MessageService {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		Agent agent = null;
-		EndUser client = null;
+		User agent = null;
+		User client = null;
 		
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			System.out.println("TW: " + authentication.getName() + " " + username);
 
-			agent = userService.findAgent(authentication.getName());
-			client = userService.findEndUser(username);
+			agent = userService.findUser(authentication.getName());
+			client = userService.findUser(username);
 		}
-				
+		System.out.println("TW: " + agent.getUsername() + " " + client.getUsername());
+
 		return messageRepository.findChatHistory(agent.getId(), client.getId());
 	}
 
 	@Transactional(readOnly = true)
-	public List<EndUser> inbox() {
+	public List<EndUser> inbox(String username) {		
+		User agent = userService.findUser(username);			
 		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		Agent agent = null;
-		
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			agent = userService.findAgent(authentication.getName());
-		}
-				
 		return userService.findMyInbox(agent.getId());
 	}
 
@@ -74,17 +69,17 @@ public class MessageService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public List<Message> send(CreateMessageRequest request) {
+	public Message send(CreateMessageRequest request) {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		Agent agent = null;
+		User agent = null;
 			
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			agent = userService.findAgent(authentication.getName());
+			agent =  userService.findUser(authentication.getName());
 		}
 			
-		EndUser client = userService.findEndUser(request.getRecipient());
+		User client = userService.findUser(request.getRecipient());
 			
 		if (client == null) {
 			 throw new ExceptionResponse(MessageStatus.UNKNOWN_USERNAME.name(), HttpStatus.BAD_REQUEST);
@@ -93,10 +88,12 @@ public class MessageService {
 		Message message = new Message();
 		message.setAgent(agent);
 		message.setClient(client);
-		message.setSentBy(Roles.AGENT);
+		message.setSentBy(Roles.AGENT);	
 		message.setContent(request.getContent());
 		message.setStatus(MessageStatus.DELIVIERED);
-								
+		
+		messageRepository.save(message);
+		
 		try {
 				SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory(MessageFactory.newInstance());
 	            messageFactory.afterPropertiesSet();
@@ -117,18 +114,18 @@ public class MessageService {
 		            
 		        save(message);
 		            
-		        return messageRepository.findChatHistory(agent.getId(), client.getId());
+		        return message;
 		       
 		} catch (Exception s) {
 	            s.printStackTrace();
 	    }
 
-		return messageRepository.findChatHistory(agent.getId(), client.getId());
+		return message;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
 	public void recieve(CreateMessageRequest request) {
-		EndUser client = userService.findEndUser(request.getSender());
+		EndUser client = (EndUser) userService.findUser(request.getSender());
 
 		Agent agent = userService.findAgent(request.getRecipient());
 		

@@ -23,10 +23,9 @@ public class MessageEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "createMessageRequest")
     @ResponsePayload
-    public CreateMessageResponse send(@RequestPayload CreateMessageRequest request) {
+    public CreateMessageResponse recieve(@RequestPayload CreateMessageRequest request) {
 		CreateMessageResponse response = new CreateMessageResponse();
 		response.setFeedback(messageService.recieve(request));
-		
         return response;
     }
 

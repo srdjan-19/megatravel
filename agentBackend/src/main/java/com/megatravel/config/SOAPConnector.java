@@ -9,6 +9,4 @@ public class SOAPConnector extends WebServiceGatewaySupport {
         return getWebServiceTemplate().marshalSendAndReceive(url, request);
     }
 
-
-	
 }

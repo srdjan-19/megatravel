@@ -29,7 +29,7 @@ public class AccommodationTypeController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AGENT')")
-	@RequestMapping(value = "/find/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseAccommodationType> findById(@PathVariable Long id) {
 		return ResponseEntity.ok(AccommodationTypeConverter.toResponseFromEntity(atService.findById(id)));
 	}

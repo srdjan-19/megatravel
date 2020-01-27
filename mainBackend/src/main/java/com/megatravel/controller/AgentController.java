@@ -30,7 +30,7 @@ public class AgentController {
 	}
  
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value="/find/username={username}", method = RequestMethod.GET)
+	@RequestMapping(value="/username={username}", method = RequestMethod.GET)
 	public ResponseEntity<ResponseAgent> findByUsername(@PathVariable("username") String username) {
 		if (userService.findAgent(username) != null) 
 			return ResponseEntity.ok(AgentConverter.toResponseFromEntity(userService.findAgent(username)));
@@ -39,7 +39,7 @@ public class AgentController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value="/find/brn={brn}", method = RequestMethod.GET)
+	@RequestMapping(value="/brn={brn}", method = RequestMethod.GET)
 	public ResponseEntity<ResponseAgent> findByBrn(@PathVariable("brn") String username) {
 		if (userService.findAgent(username) != null) 
 			return ResponseEntity.ok(AgentConverter.toResponseFromEntity(userService.findAgent(username)));

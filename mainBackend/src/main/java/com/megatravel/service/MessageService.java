@@ -2,34 +2,30 @@ package com.megatravel.service;
 
 import java.util.List;
 
-import javax.xml.soap.MessageFactory;
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ws.client.core.WebServiceTemplate;
-import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 
 import com.megatravel.config.SOAPConnector;
+import com.megatravel.converter.MessageConverter;
 import com.megatravel.dto.soap.CreateMessageRequest;
 import com.megatravel.dto.soap.CreateMessageResponse;
-import com.megatravel.exception.ExceptionResponse;
 import com.megatravel.model.Agent;
 import com.megatravel.model.EndUser;
 import com.megatravel.model.Message;
 import com.megatravel.model.MessageStatus;
-import com.megatravel.model.Roles;
+import com.megatravel.model.User;
 import com.megatravel.repository.MessageRepository;
 
 @Service
 public class MessageService {
 	
-	private final String AGENT_APP = "https://localhost:8443/agent-backend/";
+	private final String MESSAGES_ENDPOINT = "https://localhost:8443/agent-backend/booking/message/";
 	
 	@Autowired
 	private UserService userService;
@@ -57,87 +53,44 @@ public class MessageService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Agent> inbox() {
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		EndUser client = null;
-		
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			client = userService.findEndUser(authentication.getName());
-		}
-		
+	public List<Agent> inbox(String username) {
+		EndUser client = userService.findEndUser(username);
+
 		return userService.findMyInbox(client.getId());
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public void save(Message message) {
-		messageRepository.saveAndFlush(message);		
-	}
-
-	@Transactional(rollbackFor = Exception.class)
-	public List<Message> send(CreateMessageRequest request) {		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	public Message send(CreateMessageRequest request, String username) {		
+		Message message = MessageConverter.toEntityFromSendRequest(request);
 		
-		EndUser client = null;
-			
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			client = userService.findEndUser(authentication.getName());
-		}
-			
 		Agent agent = userService.findAgent(request.getRecipient());
-			
+		
 		if (agent == null) {
-			 throw new ExceptionResponse(MessageStatus.UNKNOWN_USERNAME.name(), HttpStatus.BAD_REQUEST);
+			 throw new EntityNotFoundException(MessageStatus.UNKNOWN_USERNAME.name());
 		}
-			
-		Message message = new Message();
+		
 		message.setAgent(agent);
+		
+		EndUser	client = userService.findEndUser(username);
 		message.setClient(client);
-		message.setSentBy(Roles.END_USER);
-		message.setContent(request.getContent());
-		message.setStatus(MessageStatus.DELIVIERED);
 		
 		messageRepository.save(message);
 		
-		try {
-            SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory(MessageFactory.newInstance());
-            messageFactory.afterPropertiesSet();
-
-            WebServiceTemplate webServiceTemplate = new WebServiceTemplate(messageFactory);
-            Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-
-            marshaller.setContextPath("com.megatravel.dto.soap");
-            marshaller.afterPropertiesSet();
-
-            webServiceTemplate.setMarshaller(marshaller);
-            webServiceTemplate.setUnmarshaller(marshaller);
-            webServiceTemplate.afterPropertiesSet();
-            
-            CreateMessageResponse response = (CreateMessageResponse) soapConnector.callWebService(AGENT_APP + "booking/message", request);
-			            
-    		return messageRepository.findChatHistory(agent.getId(), client.getId());
-
-        } catch (Exception s) {
-        	s.printStackTrace();
-        }
+        CreateMessageResponse response = (CreateMessageResponse) soapConnector.callWebService(MESSAGES_ENDPOINT , request);
 		
-		return messageRepository.findChatHistory(agent.getId(), client.getId());
+		return message;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
 	public MessageStatus recieve(CreateMessageRequest request) {
-		EndUser client = userService.findEndUser(request.getRecipient());
+		Message message = MessageConverter.toEntityFromRecieveRequest(request);
 		
-		Agent agent = userService.findAgent(request.getSender());
-		
-		Message message = new Message();
+		User client = userService.findUser(request.getRecipient());
 		message.setClient(client);
+		
+		User agent = userService.findUser(request.getSender());
 		message.setAgent(agent);
-		message.setContent(request.getContent());
-		message.setSentBy(Roles.AGENT);
-		message.setStatus(MessageStatus.DELIVIERED);
-				
+		
 		messageRepository.save(message);
 		
 		return MessageStatus.DELIVIERED;

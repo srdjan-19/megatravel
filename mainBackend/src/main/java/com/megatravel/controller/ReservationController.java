@@ -40,7 +40,7 @@ public class ReservationController {
 	
 	//TODO is this my reservation?
 	@PreAuthorize("hasRole('ROLE_END_USER')")
-	@RequestMapping(value = "/cancel", method = RequestMethod.PUT, produces =  MediaType.APPLICATION_JSON)
+	@RequestMapping(method = RequestMethod.PUT, produces =  MediaType.APPLICATION_JSON)
 	public ResponseEntity<List<ResponseReservation>> approve(@RequestBody UpdateReservationRequest request){
 		return ResponseEntity.ok(ReservationConverter.fromEntityList(reservationService.cancel(request), reservation -> ReservationConverter.toResponseFromEntity(reservation)));
 	}

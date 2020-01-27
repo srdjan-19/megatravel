@@ -20,8 +20,6 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 	
 	List<Accommodation> findByType(AccommodationType type);
 	
-	Accommodation findById(long accId);
-
 	Accommodation findByName(String accName);
 	
 	@Query(value = "SELECT DISTINCT * FROM accommodation AS a WHERE a.id NOT IN " + 
@@ -30,6 +28,13 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 				   "OR (r.from_date < ?2 AND r.till_date >= ?2 ) " + 
 				   "OR (?1 <= r.from_date AND ?2 >= r.from_date)) and a.name = ?3", nativeQuery = true)
 	Accommodation checkAvailability(Date startDate, Date endDate, String accommodationName);
-	
+
+	@Query(value = "SELECT * FROM accommodation as a " + 
+				   "JOIN accommodation_type as at on at.id = a.type_id " + 
+				   "JOIN accommodation_category as ac on ac.id = a.category_id " + 
+				   "WHERE a.name LIKE %:name% " + 
+				   "AND at.name LIKE %:type% " + 
+				   "AND ac.name LIKE %:category%", nativeQuery = true)
+	List<Accommodation> search(String name, String type, String category);
 		
 }

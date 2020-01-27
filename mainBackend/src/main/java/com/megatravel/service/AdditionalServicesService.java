@@ -2,15 +2,12 @@ package com.megatravel.service;
 
 import java.util.List;
 
-import javax.xml.soap.MessageFactory;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ws.client.core.WebServiceTemplate;
-import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 
 import com.megatravel.config.SOAPConnector;
 import com.megatravel.converter.AdditionalServiceConverter;
@@ -18,145 +15,82 @@ import com.megatravel.dto.soap.CodebookResponse;
 import com.megatravel.dto.soap.CreateAdditionalServiceRequest;
 import com.megatravel.dto.soap.DeleteAdditionalServiceRequest;
 import com.megatravel.dto.soap.UpdateAdditionalServiceRequest;
-import com.megatravel.exception.ExceptionResponse;
+import com.megatravel.exception.BadRequestException;
 import com.megatravel.model.AdditionalService;
 import com.megatravel.repository.AdditionalServiceRepository;
 
 @Service
 public class AdditionalServicesService {
 	
-	private final String AGENT_APP = "https://localhost:8443/agent-backend/";
+	private final String CODEBOOK_ENDPOINT = "https://localhost:8443/agent-backend/booking/codebook";
 	
 	@Autowired
-	private AdditionalServiceRepository asRepository;
+	private AdditionalServiceRepository additionalServiceRepository;
 	
 	@Autowired
 	private SOAPConnector soapConnector;
 	
 	@Transactional(rollbackFor = Exception.class)
 	public AdditionalService save(AdditionalService aService) {
-		return asRepository.save(aService);
+		return additionalServiceRepository.save(aService);
 		
 	}
 	
 	@Transactional(readOnly = true)
 	public List<AdditionalService> findAll() {
-		return asRepository.findAll();
+		return additionalServiceRepository.findAll();
 	}
 	
 	@Transactional(readOnly = true)
 	public AdditionalService findById(Long id) {
-		return asRepository.findById(id).orElse(null);
+		return additionalServiceRepository.findById(id).orElse(null);
 	}
 	
 	@Transactional(readOnly = true)
 	public AdditionalService findByName(String name) {
-		return asRepository.findByName(name);
+		return additionalServiceRepository.findByName(name);
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public List<AdditionalService> create(CreateAdditionalServiceRequest request) {
-		if (asRepository.findByName(request.getName()) != null)
-			throw new ExceptionResponse("Accommodation category '" + request.getName() + "' alerady exist!", HttpStatus.BAD_REQUEST);
+	public AdditionalService create(CreateAdditionalServiceRequest request) {
+		if (additionalServiceRepository.findByName(request.getName()) != null)
+			throw new EntityExistsException("Additional service '" + request.getName() + "' alerady exist!");
 		
-		AdditionalService accommodation = AdditionalServiceConverter.toEntityFromRequest(request);
-		asRepository.save(accommodation);
+		AdditionalService additionalService = AdditionalServiceConverter.toEntityFromRequest(request);
 		
-		try {
-            SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory(MessageFactory.newInstance());
-            messageFactory.afterPropertiesSet();
+        CodebookResponse response = (CodebookResponse) soapConnector.callWebService(CODEBOOK_ENDPOINT, request);
 
-            WebServiceTemplate webServiceTemplate = new WebServiceTemplate(messageFactory);
-            Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-
-            marshaller.setContextPath("com.megatravel.model");
-            marshaller.afterPropertiesSet();
-
-            webServiceTemplate.setMarshaller(marshaller);
-            webServiceTemplate.setUnmarshaller(marshaller);
-            webServiceTemplate.afterPropertiesSet();
-            
-            CodebookResponse response = (CodebookResponse) soapConnector.callWebService(AGENT_APP + "booking/codebook", request);
-			            
-    		return asRepository.findAll();
-    		
-        } catch (Exception s) {
-        	s.printStackTrace();
-        }
-		
-		return asRepository.findAll();
+		return additionalServiceRepository.save(additionalService);
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public List<AdditionalService> modify(UpdateAdditionalServiceRequest request) {
-		AdditionalService category = asRepository.findByName(request.getOldName());
+	public AdditionalService modify(UpdateAdditionalServiceRequest request) {
+		AdditionalService additionalService = additionalServiceRepository.findByName(request.getOldName());
 		
-		if (category == null)
-			throw new ExceptionResponse("Accommodation category '" + request.getOldName() + "' does not exist!", HttpStatus.BAD_REQUEST);
+		if (additionalService == null)
+			throw new EntityNotFoundException("Additional service '" + request.getOldName() + "' does not exist!");
 		
-		if (asRepository.findByName(request.getNewName()) != null)
-			throw new ExceptionResponse("Accommodation category '" + request.getNewName() + "' alerady exist!", HttpStatus.BAD_REQUEST);
+		if (additionalServiceRepository.findByName(request.getNewName()) != null)
+			throw new EntityExistsException("Additional service '" + request.getNewName() + "' alerady exist!");
 		
-		asRepository.modifyAS(category.getId(), request.getNewName());
-		
-		try {
-            SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory(MessageFactory.newInstance());
-            messageFactory.afterPropertiesSet();
+		additionalService.setName(request.getNewName());
 
-            WebServiceTemplate webServiceTemplate = new WebServiceTemplate(messageFactory);
-            Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-
-            marshaller.setContextPath("com.megatravel.model");
-            marshaller.afterPropertiesSet();
-
-            webServiceTemplate.setMarshaller(marshaller);
-            webServiceTemplate.setUnmarshaller(marshaller);
-            webServiceTemplate.afterPropertiesSet();
-            
-            CodebookResponse response = (CodebookResponse) soapConnector.callWebService(AGENT_APP + "booking/codebook", request);
-			            
-    		return asRepository.findAll();
-    		
-        } catch (Exception s) {
-        	s.printStackTrace();
-        }
+		CodebookResponse response = (CodebookResponse) soapConnector.callWebService(CODEBOOK_ENDPOINT, request);
 		
-		return asRepository.findAll();
+		return additionalServiceRepository.save(additionalService);
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public List<AdditionalService> delete(String name) {
-		AdditionalService category = asRepository.findByName(name);
-		if (category == null)
-			throw new ExceptionResponse("Accommodation category '" + name + "' does not exist!", HttpStatus.BAD_REQUEST);
+	public Long delete(Long id) {
+		AdditionalService category = additionalServiceRepository.findById(id).orElseThrow(() -> new BadRequestException("Accommodation category with id '" + id + "' does not exist!"));
 		
-		asRepository.delete(category);
+		additionalServiceRepository.deleteById(id);
 		
-		try {
-            SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory(MessageFactory.newInstance());
-            messageFactory.afterPropertiesSet();
+        DeleteAdditionalServiceRequest request = new DeleteAdditionalServiceRequest();
+        request.setName(category.getName());
+        
+        CodebookResponse response = (CodebookResponse) soapConnector.callWebService(CODEBOOK_ENDPOINT, request);
 
-            WebServiceTemplate webServiceTemplate = new WebServiceTemplate(messageFactory);
-            Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-
-            marshaller.setContextPath("com.megatravel.model");
-            marshaller.afterPropertiesSet();
-
-            webServiceTemplate.setMarshaller(marshaller);
-            webServiceTemplate.setUnmarshaller(marshaller);
-            webServiceTemplate.afterPropertiesSet();
-            
-            DeleteAdditionalServiceRequest request = new DeleteAdditionalServiceRequest();
-            request.setName(name);
-            CodebookResponse response = (CodebookResponse) soapConnector.callWebService(AGENT_APP + "booking/codebook", request);
-			            
-    		return asRepository.findAll();
-    		
-        } catch (Exception s) {
-        	s.printStackTrace();
-        }
-		
-		return asRepository.findAll();
+        return id;
 	}
-
 }

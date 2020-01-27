@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         	.exceptionHandling()
         	.accessDeniedPage("/signin")
         	.authenticationEntryPoint(unauthorizedHandler);
-;
+
 
         // Apply JWT
         http
@@ -76,9 +76,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        // Allow eureka client to be accessed without authentication
         web.ignoring().antMatchers("/*/")//
-                .antMatchers("/eureka/**")//
+                .antMatchers("/**")//
                 .antMatchers(HttpMethod.OPTIONS, "/**"); // Request type options should be allowed.
     }
     

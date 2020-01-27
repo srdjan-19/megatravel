@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.megatravel.dto.response.ResponseAccommodation;
 import com.megatravel.dto.soap.CreateAccommodationRequest;
+import com.megatravel.dto.soap.CudAccommodationResponse;
 import com.megatravel.model.Accommodation;
 import com.megatravel.model.AdditionalService;
 import com.megatravel.model.ImageResource;
@@ -24,6 +25,7 @@ public class AccommodationConverter extends AbstractConverter {
 		response.setAdditionalService(AdditionalServiceConverter.fromEntityList(accommodation.getAdditionalServices(), as -> AdditionalServiceConverter.toResponseFromEntity(as)));
 		response.setRates(RateConverter.fromEntityList(accommodation.getRates(), rate -> RateConverter.toResponseFromEntity(rate)));
 		response.setComments(CommentConverter.fromEntityList(accommodation.getComments(), comment -> CommentConverter.toResponseFromEntity(comment)));
+		response.setPrices(PriceInSeasonConverter.fromEntityList(accommodation.getPriceInSeason(), pis -> PriceInSeasonConverter.toResponseFromEntity(pis)));
 		
 		return response;
 	}
@@ -59,5 +61,9 @@ public class AccommodationConverter extends AbstractConverter {
 		accommodation.setAdditionalServices(addServList);
 	
 		return accommodation;
+	}
+	
+	public static CudAccommodationResponse toCudAccommodationResponse(Accommodation accommodation, String action) {
+		return new CudAccommodationResponse("Accommodation " + accommodation.getId() + " has been " + action);
 	}
 }

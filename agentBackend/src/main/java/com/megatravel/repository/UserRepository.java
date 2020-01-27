@@ -17,10 +17,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	User findUserByUsername(String username);
 
+	Agent findAgentByUsername(String username);
+
 	EndUser findEndUserByUsername(String username);
 
-	Agent findAgentByUsername(String username);
-	
 	@Query(value = "select * from user where user.dtype = 'EndUser'", nativeQuery = true)
 	List<EndUser> findEndUsers();	
 	
@@ -29,6 +29,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query(value =  "SELECT * FROM user AS u " + 
 					"JOIN message AS m ON m.client_id = u.id " + 
+					"WHERE m.agent_id = :agentId " + 
 					"GROUP BY u.id", nativeQuery = true)
 	List<EndUser> findMyInbox(long agentId);
 

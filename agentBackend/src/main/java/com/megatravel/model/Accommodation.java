@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -93,7 +94,11 @@ import javax.xml.bind.annotation.XmlType;
 public class Accommodation {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(generator = "accommodation_sequence")
+	@SequenceGenerator(initialValue=201, 
+                        allocationSize=1,
+                        name = "accommodation_sequence", 
+                        sequenceName="accommodation_sequence")
     protected long id;
 	
     @XmlElement(required = true)
@@ -129,7 +134,7 @@ public class Accommodation {
     @OneToMany(fetch = FetchType.LAZY)
     protected List<PriceInSeason> pricelist;
     
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     protected List<AdditionalService> additionalServices;
     
     @XmlElement(required = true)

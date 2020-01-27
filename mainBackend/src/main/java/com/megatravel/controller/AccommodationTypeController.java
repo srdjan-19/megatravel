@@ -23,36 +23,37 @@ import com.megatravel.service.AccommodationTypeService;
 public class AccommodationTypeController {
 
 	@Autowired
-	private AccommodationTypeService atService;
+	private AccommodationTypeService accommodationTypeService;
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ResponseAccommodationType>> create(@RequestBody CreateAccommodationTypeRequest request) {
-		return ResponseEntity.ok(AccommodationTypeConverter.fromEntityList(atService.create(request), (type -> AccommodationTypeConverter.toResponseFromEntity(type))));
+	public ResponseEntity<ResponseAccommodationType> create(@RequestBody CreateAccommodationTypeRequest request) {
+		return ResponseEntity.ok(AccommodationTypeConverter.toResponseFromEntity(accommodationTypeService.create(request)));
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ResponseAccommodationType>> findAll() {
-		return ResponseEntity.ok(AccommodationTypeConverter.fromEntityList(atService.findAll(), (type -> AccommodationTypeConverter.toResponseFromEntity(type))));
+		return ResponseEntity.ok(AccommodationTypeConverter.fromEntityList(accommodationTypeService.findAll(), (type -> AccommodationTypeConverter.toResponseFromEntity(type))));
 	}
-
+	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ResponseAccommodationType>> update(@RequestBody UpdateAccommodationTypeRequest request) {
-		return ResponseEntity.ok(AccommodationTypeConverter.fromEntityList(atService.modify(request), (type -> AccommodationTypeConverter.toResponseFromEntity(type))));
-	}
-
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/delete/{name}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ResponseAccommodationType>> delete(@PathVariable("name") String name) {
-		return ResponseEntity.ok(AccommodationTypeConverter.fromEntityList(atService.delete(name), (type -> AccommodationTypeConverter.toResponseFromEntity(type))));
-	}
-
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/find/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseAccommodationType> findById(@PathVariable Long id) {
-		return ResponseEntity.ok(AccommodationTypeConverter.toResponseFromEntity(atService.findById(id)));
+		return ResponseEntity.ok(AccommodationTypeConverter.toResponseFromEntity(accommodationTypeService.findById(id)));
 	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseAccommodationType> update(@RequestBody UpdateAccommodationTypeRequest request) {
+		return ResponseEntity.ok(AccommodationTypeConverter.toResponseFromEntity(accommodationTypeService.modify(request)));
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Long> delete(@PathVariable Long id) {
+		return ResponseEntity.ok(accommodationTypeService.delete(id));
+	}
+
 	
 }

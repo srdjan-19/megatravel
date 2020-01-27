@@ -16,15 +16,17 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.Where;
 
 
 /**
@@ -139,7 +141,7 @@ public class Accommodation {
     @NotNull
     protected List<PriceInSeason> pricelist;
     
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     protected List<AdditionalService> additionalServices;
     
     @XmlElement(required = true)
@@ -150,6 +152,7 @@ public class Accommodation {
     protected List<Rate> rates;
     
     @OneToMany(fetch = FetchType.LAZY)
+    @Where(clause = "visible = true")
     protected List<Comment> comments;
 
     public Accommodation() {

@@ -36,7 +36,6 @@ public class AccommodationConverter extends AbstractConverter {
 
 		accommodation.setCapacity(request.getCapacity());
 		accommodation.setDescription(request.getDescription());
-		accommodation.setDistance(request.getDistance());
 		accommodation.setName(request.getName());
 		
 		List<String> imageUrl = request.getImages();

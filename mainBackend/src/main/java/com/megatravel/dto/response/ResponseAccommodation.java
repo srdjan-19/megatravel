@@ -31,6 +31,8 @@ public class ResponseAccommodation {
 	private List<ResponseComment> comments;
 	
 	private List<ResponseRate> rates;
+
+	private List<ResponsePriceInSeason> prices;
 	
 	public ResponseAccommodation() { 
 		
@@ -157,6 +159,14 @@ public class ResponseAccommodation {
 
 	public void setRates(List<ResponseRate> rates) {
 		this.rates = rates;
+	}
+
+	public List<ResponsePriceInSeason> getPrices() {
+		return prices;
+	}
+
+	public void setPrices(List<ResponsePriceInSeason> prices) {
+		this.prices = prices;
 	}	
 
 }

@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.megatravel.converter.CommentConverter;
 import com.megatravel.dto.response.ResponseComment;
-import com.megatravel.dto.response.ResponseCommentUpdate;
-import com.megatravel.dto.soap.CprdCommentResponse;
 import com.megatravel.dto.soap.CreateCommentRequest;
 import com.megatravel.dto.soap.UpdateCommentRequest;
 import com.megatravel.service.CommentService;
@@ -29,44 +28,44 @@ public class CommentController {
 	
 	@PreAuthorize("hasRole('ROLE_END_USER')")
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CprdCommentResponse> post(@RequestBody CreateCommentRequest request) {
-		return ResponseEntity.ok(commentService.post(request));
+	public ResponseEntity<ResponseComment> post(@RequestBody CreateCommentRequest request) {
+		return ResponseEntity.ok(CommentConverter.toResponseFromEntity(commentService.post(request)));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ResponseComment>> all() {
+	public ResponseEntity<List<ResponseComment>> findAll() {
 		return ResponseEntity.ok(CommentConverter.fromEntityList(commentService.findAll(), comment -> CommentConverter.toResponseFromEntity(comment)));
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/approved", method = RequestMethod.GET)
-	public ResponseEntity<List<ResponseComment>> allReviewed() {
-		return ResponseEntity.ok(CommentConverter.fromEntityList(commentService.findAllByAllowed(true), comment -> CommentConverter.toResponseFromEntity(comment)));
+	@RequestMapping(value="/search",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ResponseComment>> findByStatus(@RequestParam("status") boolean status) {
+		return ResponseEntity.ok(CommentConverter.fromEntityList(commentService.findAllByAllowed(status), comment -> CommentConverter.toResponseFromEntity(comment)));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/refused", method = RequestMethod.GET)
-	public ResponseEntity<List<ResponseComment>> allNotReviewed() {
-		return ResponseEntity.ok(CommentConverter.fromEntityList(commentService.findAllByAllowed(false), comment -> CommentConverter.toResponseFromEntity(comment)));
+	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseComment> update(@RequestBody UpdateCommentRequest request) {
+		return ResponseEntity.ok(CommentConverter.toResponseFromEntity(commentService.update(request)));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/approve", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ResponseCommentUpdate> publish(@RequestBody UpdateCommentRequest request) {
-		return ResponseEntity.ok(commentService.accept(request));
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<ResponseComment> getbyid(@PathVariable Long id) {
+		return ResponseEntity.ok(CommentConverter.toResponseFromEntity(commentService.findById(id)));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/refuse", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ResponseCommentUpdate> refuse(@RequestBody UpdateCommentRequest request) {
-		return ResponseEntity.ok(commentService.refuse(request));
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Long> delete(@PathVariable Long id) {
+		return ResponseEntity.ok(commentService.delete(id));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<List<ResponseComment>> deleteUser(@PathVariable("id") Long id) {
-		return ResponseEntity.ok(CommentConverter.fromEntityList(commentService.delete(id), comment -> CommentConverter.toResponseFromEntity(comment)));
+	@RequestMapping(value = "/user/{username}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deletePostedByUser(@PathVariable String username) {
+		return ResponseEntity.ok(commentService.deletePostedByUserId(username));
 	}
 
 }

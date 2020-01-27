@@ -9,17 +9,23 @@ public class ResponseAddress {
 	private String country;
 	
 	private int zip;
+	
+	private double longitude;
+	
+	private double latitude;
 
 	public ResponseAddress() {
 		
 	}
 	
-	public ResponseAddress(String street, String city, String country, int zip) {
+	public ResponseAddress(String street, String city, String country, int zip, double lat, double lng) {
 		super();
 		this.street = street;
 		this.city = city;
 		this.country = country;
 		this.zip = zip;
+		this.latitude = lat;
+		this.longitude = lng;
 	}
 
 	public String getStreet() {
@@ -52,6 +58,22 @@ public class ResponseAddress {
 
 	public void setZip(int zip) {
 		this.zip = zip;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 
 	

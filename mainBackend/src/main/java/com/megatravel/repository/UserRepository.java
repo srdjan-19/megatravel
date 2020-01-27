@@ -29,8 +29,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query(value = "SELECT * FROM maindb.user WHERE user.dtype = 'Agent'", nativeQuery = true)
 	List<Agent> findAgents();
 
-	@Query(value =  "SELECT * FROM maindb.user as u " + 
+	@Query(value =  "SELECT * FROM user as u " + 
 					"JOIN message AS m ON m.agent_id = u.id " + 
+					"WHERE m.client_id = :clientId " + 
 					"GROUP BY m.agent_id ", nativeQuery = true)
 	List<Agent> findMyInbox(long clientId);
 

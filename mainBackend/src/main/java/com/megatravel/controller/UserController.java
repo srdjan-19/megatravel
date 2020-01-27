@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.megatravel.converter.EndUserConverter;
@@ -35,17 +36,17 @@ public class UserController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/find/endusers", method = RequestMethod.GET)
-	public ResponseEntity<List<ResponseEndUser>> test() {
+	@RequestMapping(value = "/endusers", method = RequestMethod.GET)
+	public ResponseEntity<List<ResponseEndUser>> findEndUsers() {
 		return ResponseEntity.ok(EndUserConverter.fromEntityList(userService.findEndUsers(), enduser -> EndUserConverter.toResponseFromEntity(enduser)));
 	}
 	
-	@RequestMapping(value = "/find/username={username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ResponseUser> findUser(@PathVariable("username") String username) {
+	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseUser> findUserByUsername(@RequestParam("username") String username) {
 		return ResponseEntity.ok(UserConverter.toResponseFromEntity(userService.findUser(username)));
 	}
 	
-	@RequestMapping(value = "/find/enduser/username={username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/enduser/username={username}", method = RequestMethod.GET)
 	public ResponseEndUser findEndUser(@PathVariable("username") String username) {
 		if (userService.findEndUser(username) != null) 
 			return EndUserConverter.toResponseFromEntity(userService.findEndUser(username));
@@ -53,7 +54,7 @@ public class UserController {
 			return null;
 	}
 	
-	@RequestMapping(value = "/find/enduser/email={email}", method = RequestMethod.GET)
+	@RequestMapping(value = "/enduser/email={email}", method = RequestMethod.GET)
 	public ResponseEndUser findEndUserByEmail(@PathVariable("email") String email) {
 		if (userService.findEndUserByEmail(email) != null) 
 			return EndUserConverter.toResponseFromEntity(userService.findEndUserByEmail(email));
@@ -63,21 +64,21 @@ public class UserController {
 	
 	//TODO sync with agent db!
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/delete/{username}", method = RequestMethod.DELETE)
-	public ResponseEntity<List<ResponseEndUser>> deleteUser(@PathVariable("username") String username) {
-		return ResponseEntity.ok(EndUserConverter.fromEntityList(userService.delete(username), enduser -> EndUserConverter.toResponseFromEntity(enduser)));
+	@RequestMapping(value = "/{username}", method = RequestMethod.DELETE)
+	public ResponseEntity<ResponseEndUser> deleteUser(@PathVariable("username") String username) {
+		return ResponseEntity.ok(EndUserConverter.toResponseFromEntity(userService.delete(username)));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/block/{username}", method = RequestMethod.PUT)
-	public ResponseEntity<List<ResponseEndUser>> blockUser(@PathVariable String username) {
-		return ResponseEntity.ok(EndUserConverter.fromEntityList(userService.block(username), enduser -> EndUserConverter.toResponseFromEntity(enduser)));
+	public ResponseEntity<ResponseEndUser> blockUser(@PathVariable String username) {
+		return ResponseEntity.ok(EndUserConverter.toResponseFromEntity(userService.block(username)));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/activate/{username}", method = RequestMethod.PUT)
-	public ResponseEntity<List<ResponseEndUser>> activateUser(@PathVariable String username) {
-		return ResponseEntity.ok(EndUserConverter.fromEntityList(userService.activate(username), enduser -> EndUserConverter.toResponseFromEntity(enduser)));
+	public ResponseEntity<ResponseEndUser> activateUser(@PathVariable String username) {
+		return ResponseEntity.ok(EndUserConverter.toResponseFromEntity(userService.activate(username)));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_END_USER')")

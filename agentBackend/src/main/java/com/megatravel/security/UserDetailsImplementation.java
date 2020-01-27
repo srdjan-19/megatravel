@@ -22,25 +22,22 @@ import com.megatravel.service.UserService;
 
 @Service
 public class UserDetailsImplementation implements UserDetailsService {
-
-	@Autowired
-	private MainBackendService mainBackend;
 		
 	@Autowired
 	private UserService userService;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public User loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		ResponseUser user = mainBackend.findUserByUsername(username);
+		com.megatravel.model.User user = userService.findUser(username);
 	
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		
-		for (ResponseRole role : user.getRoles()){
+		for (Role role : user.getRoles()){
 			grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().name()));
 		}
 			
-		return  new User(user.getUsername(), user.getPassword(), grantedAuthorities);
+		return new User(user.getUsername(), user.getPassword(), grantedAuthorities);
 			
 	}
 

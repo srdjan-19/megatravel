@@ -11,6 +11,7 @@ package com.megatravel.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -84,7 +85,11 @@ import javax.xml.bind.annotation.XmlType;
 public class Address {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(generator = "address_sequence")
+	@SequenceGenerator(initialValue=501, 
+                        allocationSize=1,
+                        name = "address_sequence", 
+                        sequenceName="address_sequence")
     protected long id;
 	
     @XmlElement(required = true)
@@ -102,8 +107,22 @@ public class Address {
     protected double longitude;
     
     protected double latitude;
+    
+    public Address() {
+    	
+    };
 
-    /**
+    public Address(String country, String city, int zip, String street, double longitude, double latitude) {
+		super();
+		this.country = country;
+		this.city = city;
+		this.zip = zip;
+		this.street = street;
+		this.longitude = longitude;
+		this.latitude = latitude;
+	}
+
+	/**
      * Gets the value of the id property.
      * 
      */

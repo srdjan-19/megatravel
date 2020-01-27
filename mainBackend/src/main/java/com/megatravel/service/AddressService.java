@@ -2,6 +2,8 @@ package com.megatravel.service;
 
 import java.util.List;
 
+import javax.ws.rs.BadRequestException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,11 @@ public class AddressService {
 	@Transactional(readOnly = true)
 	public List<Address> findAll(){
 		return addressRepository.findAll();
+	}
+	
+	@Transactional(readOnly = true)
+	public Address findById(Long id) {
+		return addressRepository.findById(id).orElseThrow(() -> new BadRequestException("Address with id '" + id + "' does not exists!"));
 	}
 	
 	@Transactional(readOnly = true)

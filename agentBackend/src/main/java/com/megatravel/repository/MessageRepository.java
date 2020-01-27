@@ -11,7 +11,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 	List<Message> findAll();
 	
 	@Query(value = "SELECT * FROM agentdb.message WHERE message.agent_id = ?1 and message.client_id = ?2", nativeQuery = true)
-	List<Message> findChatHistory(Long agentId, Long clientId);
+	List<Message> findChatHistory(long agentId, long clientId);
 	
 	@Query(value = "SELECT * FROM agentdb.message WHERE message.agent_id = ?1", nativeQuery = true)
 	List<Message> findMyInbox(Long agentId);

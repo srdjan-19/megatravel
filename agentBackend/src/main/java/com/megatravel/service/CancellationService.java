@@ -12,8 +12,8 @@ public class CancellationService {
 	@Autowired
 	private CancellationRepository cancellationRepository;
 	
-	public void save(Cancellation cancellation) {
-		cancellationRepository.save(cancellation);
+	public Cancellation save(Cancellation cancellation) {
+		return cancellationRepository.save(cancellation);
 	}
 
 }

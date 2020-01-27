@@ -5,6 +5,7 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import com.megatravel.converter.AccommodationConverter;
 import com.megatravel.dto.soap.CreateAccommodationRequest;
 import com.megatravel.dto.soap.CudAccommodationResponse;
 import com.megatravel.dto.soap.DeleteAccommodationRequest;
@@ -23,24 +24,22 @@ public class AccommodationEndpoint {
 		this.accommodationService = accommodationService;
 	}
 
-
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "createAccommodationRequest")
     @ResponsePayload
     public CudAccommodationResponse create(@RequestPayload CreateAccommodationRequest request) {	
-		System.out.println("ENDPOINT");
-		return new CudAccommodationResponse(accommodationService.create(request));
+		return AccommodationConverter.toCudAccommodationResponse(accommodationService.create(request), "created.");
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "updateAccommodationRequest")
     @ResponsePayload
     public CudAccommodationResponse update(@RequestPayload UpdateAccommodationRequest request) {
-		return new CudAccommodationResponse(accommodationService.update(request));
+		return AccommodationConverter.toCudAccommodationResponse(accommodationService.update(request), "updated.");
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "deleteAccommodationRequest")
     @ResponsePayload
     public CudAccommodationResponse delete(@RequestPayload DeleteAccommodationRequest request) {
-		return new CudAccommodationResponse(accommodationService.delete(request));
+		return AccommodationConverter.toCudAccommodationResponse(accommodationService.delete(request), " removed.");
 	}
 	
 }

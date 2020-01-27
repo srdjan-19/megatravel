@@ -62,11 +62,11 @@ public class Message {
     
 	@XmlElement(required = true)
     @ManyToOne
-	protected Agent agent;
+	protected User agent;
     
 	@XmlElement(required = true)
 	@ManyToOne
-	protected EndUser client;
+	protected User client;
     
 	@XmlElement(required = true)
     protected String content;
@@ -103,7 +103,7 @@ public class Message {
      *     {@link Agent }
      *     
      */
-    public Agent getAgent() {
+    public User getAgent() {
         return agent;
     }
 
@@ -115,7 +115,7 @@ public class Message {
      *     {@link Agent }
      *     
      */
-    public void setAgent(Agent value) {
+    public void setAgent(User value) {
         this.agent = value;
     }
 
@@ -127,7 +127,7 @@ public class Message {
      *     {@link EndUser }
      *     
      */
-    public EndUser getClient() {
+    public User getClient() {
         return client;
     }
 
@@ -139,7 +139,7 @@ public class Message {
      *     {@link EndUser }
      *     
      */
-    public void setClient(EndUser value) {
+    public void setClient(User value) {
         this.client = value;
     }
 

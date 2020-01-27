@@ -30,8 +30,8 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="password" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="email" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="firstName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="lastName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="city" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="lastName" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="addressId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="brn">
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}int">
@@ -54,7 +54,7 @@ import javax.xml.bind.annotation.XmlType;
     "email",
     "firstName",
     "lastName",
-    "city",
+    "addressId",
     "brn"
 })
 @XmlRootElement(name = "createAgentRequest", namespace = "http://www.megatravel.com/users")
@@ -71,7 +71,7 @@ public class CreateAgentRequest {
     @XmlElement(namespace = "http://www.megatravel.com/users", required = true)
     protected String lastName;
     @XmlElement(namespace = "http://www.megatravel.com/users", required = true)
-    protected String city;
+    protected Long addressId;
     @XmlElement(namespace = "http://www.megatravel.com/users")
     protected int brn;
 
@@ -203,8 +203,8 @@ public class CreateAgentRequest {
      *     {@link String }
      *     
      */
-    public String getCity() {
-        return city;
+    public long getAddressId() {
+        return addressId;
     }
 
     /**
@@ -215,8 +215,8 @@ public class CreateAgentRequest {
      *     {@link String }
      *     
      */
-    public void setCity(String value) {
-        this.city = value;
+    public void setAddressId(long value) {
+        this.addressId = value;
     }
 
     /**

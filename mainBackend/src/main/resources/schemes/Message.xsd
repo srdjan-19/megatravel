@@ -9,8 +9,8 @@
     <xs:complexType name="Message">
         <xs:sequence>
             <xs:element name="id" type="xs:long"/>
-            <xs:element name="agent" type="us:Agent"/>
-       		<xs:element name="client" type="us:EndUser"/>	     
+            <xs:element name="agent" type="us:User"/>
+       		<xs:element name="client" type="us:User"/>	     
             <xs:element name="content" type="xs:string"/>
             <xs:element name="sentBy" type="us:roles"/>
             <xs:element name="status" type="me:messageStatus"/>

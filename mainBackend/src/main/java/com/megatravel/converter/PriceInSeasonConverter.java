@@ -1,6 +1,6 @@
 package com.megatravel.converter;
 
-import com.megatravel.dto.ResponsePriceInSeason;
+import com.megatravel.dto.response.ResponsePriceInSeason;
 import com.megatravel.model.PriceInSeason;
 
 public class PriceInSeasonConverter extends AbstractConverter {
